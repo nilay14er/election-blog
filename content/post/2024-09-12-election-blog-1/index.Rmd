@@ -21,7 +21,7 @@ library(janitor)
 
 
 
-
+Map 1
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE} 
 
@@ -64,12 +64,11 @@ state_vote_data <- data.frame(
     theme_void() +
     labs(title = "State-Level Democratic Vote Swing (2016-2020)")
   
-
 ```
 
 
 
-
+Map 2
 
 
 
@@ -102,7 +101,7 @@ states_map <- map_data("state")
 
 
 
-
+Map 3
 
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE} 

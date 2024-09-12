@@ -8,40 +8,6 @@ tags: []
 ---
 
 
-```r
-knitr::opts_chunk$set(echo = F)
-```
-
-
-
-```
-## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.3     ✔ readr     2.1.4
-## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-## ✔ lubridate 1.9.3     ✔ tibble    3.2.1
-## ✔ purrr     1.0.2     ✔ tidyr     1.3.0
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ purrr::map()    masks maps::map()
-## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-## 
-## Attaching package: 'reshape2'
-## 
-## 
-## The following object is masked from 'package:tidyr':
-## 
-##     smiths
-## 
-## 
-## 
-## Attaching package: 'janitor'
-## 
-## 
-## The following objects are masked from 'package:stats':
-## 
-##     chisq.test, fisher.test
-```
 
 
 
@@ -57,13 +23,16 @@ knitr::opts_chunk$set(echo = F)
 ```
 
 ```
-## `summarise()` has grouped output by 'state'. You can override using the
-## `.groups` argument.
-```
-
-```
 ## Warning: Removed 43 rows containing missing values (`geom_text_repel()`).
 ```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+
+
+
+
+
+
 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 
@@ -72,20 +41,7 @@ knitr::opts_chunk$set(echo = F)
 
 
 
-
-```
-## [1] "/Users/nilayersoy/election-blog/content/post/2024-09-12-election-blog-1"
-```
-
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
-
-
-
-
-
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 
 
 
@@ -123,7 +79,7 @@ knitr::opts_chunk$set(echo = F)
 ## 8 4/30/24     trump         46
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 
  
 

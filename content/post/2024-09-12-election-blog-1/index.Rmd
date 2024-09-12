@@ -7,12 +7,7 @@ categories: []
 tags: []
 ---
 
-```{r}
-knitr::opts_chunk$set(echo = F)
-```
-
-
-```{r}
+```{r, echo = FALSE, message=FALSE}
 library(ggplot2)
 library(maps)
 library(tidyverse)
@@ -28,7 +23,7 @@ library(janitor)
 
 
 
-```{r, echo = FALSE} 
+```{r, echo = FALSE, message=FALSE} 
 
 
 state_vote_data <- data.frame(
@@ -77,12 +72,8 @@ state_vote_data <- data.frame(
 
 
 
-```{r}
-getwd()
-```
 
-
-```{r, echo = FALSE}
+```{r, echo = FALSE, message=FALSE}
 states_map <- map_data("state")
   
   d_pvstate_wide <- read.csv("clean_wide_state_2pv_1948_2020.csv")
@@ -114,7 +105,7 @@ states_map <- map_data("state")
 
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, message=FALSE}
 states_map <- map_data("state")
   
   d_pvstate_wide <- read.csv("clean_wide_state_2pv_1948_2020.csv")
@@ -140,7 +131,7 @@ states_map <- map_data("state")
 
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, message=FALSE}
 
 poll_data <- read.csv("ABC_Ipsos_Poll_Results.csv")
 poll_data <- clean_names(poll_data)

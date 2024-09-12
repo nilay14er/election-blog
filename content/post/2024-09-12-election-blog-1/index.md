@@ -8,12 +8,11 @@ tags: []
 ---
 
 
-
 ```r
-library(ggplot2)
-library(maps)
-library(tidyverse)
+knitr::opts_chunk$set(echo = F)
 ```
+
+
 
 ```
 ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -26,30 +25,18 @@ library(tidyverse)
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ✖ purrr::map()    masks maps::map()
 ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
-```
-
-```r
-library(dplyr)
-library(ggrepel)
-library(reshape2)
-```
-
-```
 ## 
 ## Attaching package: 'reshape2'
+## 
 ## 
 ## The following object is masked from 'package:tidyr':
 ## 
 ##     smiths
-```
-
-```r
-library(janitor)
-```
-
-```
+## 
+## 
 ## 
 ## Attaching package: 'janitor'
+## 
 ## 
 ## The following objects are masked from 'package:stats':
 ## 
@@ -78,31 +65,27 @@ library(janitor)
 ## Warning: Removed 43 rows containing missing values (`geom_text_repel()`).
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 
 
 
 
 
 
-
-```r
-getwd()
-```
 
 ```
 ## [1] "/Users/nilayersoy/election-blog/content/post/2024-09-12-election-blog-1"
 ```
 
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-
-
-
-
-
-
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+
+
+
+
+
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 
 
 
@@ -140,7 +123,7 @@ getwd()
 ## 8 4/30/24     trump         46
 ```
 
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 
  
 

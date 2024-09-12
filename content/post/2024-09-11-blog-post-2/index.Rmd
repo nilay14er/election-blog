@@ -1,0 +1,52 @@
+---
+title: Blog Post 2
+author: Nilay Ersoy
+date: '2024-09-11'
+slug: blog-post-2
+categories: []
+tags: []
+---
+
+```{r}
+# Load necessary libraries
+library(tidyverse)
+
+# Load the datasets (assuming you already have them loaded)
+d_popvote <- read_csv("popvote_1948-2020.csv")
+d_fred <- read_csv("fred_econ.csv")
+
+# Filter relevant columns from popvote and fred datasets
+d_popvote_filtered <- d_popvote %>%
+  select(year, pv2p, incumbent_party)
+
+d_fred_filtered <- d_fred %>%
+  filter(quarter == 2) %>%  # Use Q2 data only
+  select(year, unemployment)
+
+# Merge datasets by year
+d_inc_econ <- d_popvote_filtered %>%
+  left_join(d_fred_filtered, by = "year")
+
+# Fit the linear regression model
+reg_econ <- lm(pv2p ~ unemployment, data = d_inc_econ)
+
+# Print model summary to understand the results
+summary(reg_econ)
+
+# Visualize the relationship with a regression line
+ggplot(d_inc_econ, aes(x = unemployment, y = pv2p, color = as.factor(incumbent_party))) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = TRUE, color = "blue") +
+  labs(title = "Effect of Unemployment on Incumbent Party Vote Share",
+       x = "Unemployment Rate (%)",
+       y = "Incumbent Party's Popular Vote Share (%)",
+       color = "Incumbent Party") +
+  theme_minimal()
+
+
+
+
+
+
+```
+

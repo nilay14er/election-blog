@@ -1,0 +1,176 @@
+---
+title: Election Blog 1
+author: Nilay
+date: '2024-09-12'
+slug: election-blog-1
+categories: []
+tags: []
+---
+
+
+```{r}
+library(ggplot2)
+library(maps)
+library(tidyverse)
+library(dplyr)
+library(ggrepel)
+library(reshape2)
+library(janitor)
+
+
+```
+
+
+
+
+
+```{r, echo = FALSE} 
+
+
+state_vote_data <- data.frame(
+    state = c("alabama", "alaska", "arizona", "arkansas", "california", "north carolina", "michigan"),
+    year = c(2016, 2016, 2016, 2016, 2016, 2016, 2016, 2020, 2020, 2020, 2020, 2020, 2020, 2020),
+    dem_vote = c(34, 37, 44, 33, 61, 48, 47, 36, 39, 49, 31, 64, 49, 51),
+    rep_vote = c(62, 51, 48, 61, 33, 50, 47, 60, 53, 48, 62, 34, 49, 48)
+  )
+  
+  state_abbr <- data.frame(
+    state = c("alabama", "alaska", "arizona", "arkansas", "california", "north carolina", "michigan"),
+    abbrev = c("AL", "AK", "AZ", "AR", "CA", "NC", "MI")
+  )
+
+  swing_data <- state_vote_data %>%
+    group_by(state) %>%
+    mutate(dem_swing = dem_vote[year == 2020] - dem_vote[year == 2016],
+           rep_swing = rep_vote[year == 2020] - rep_vote[year == 2016])
+
+  states_map <- map_data("state")
+  
+  states_map <- states_map %>%
+    rename(state = region)
+  
+  swing_map_data <- left_join(states_map, swing_data, by = "state")
+  swing_map_data <- left_join(swing_map_data, state_abbr, by = "state")
+  
+  state_centroids <- swing_map_data %>%
+    group_by(state, abbrev) %>%
+    summarise(long = mean(long), lat = mean(lat))
+  
+  ggplot(swing_map_data, aes(x = long, y = lat, group = group, fill = dem_swing)) +
+    geom_polygon(color = "white", aes(group = group)) + 
+    scale_fill_gradient2(low = "red", high = "blue", mid = "white", midpoint = 0,
+                         name = "Democratic Swing") +
+    geom_text_repel(data = state_centroids, aes(x = long, y = lat, label = abbrev),
+                    size = 4, box.padding = 0.5, max.overlaps = Inf, inherit.aes = FALSE) + 
+    theme_void() +
+    labs(title = "State-Level Democratic Vote Swing (2016-2020)")
+  
+
+```
+
+
+
+
+
+
+```{r}
+getwd()
+```
+
+
+```{r, echo = FALSE}
+states_map <- map_data("state")
+  
+  d_pvstate_wide <- read.csv("clean_wide_state_2pv_1948_2020.csv")
+  
+  d_pvstate_wide$region <- tolower(d_pvstate_wide$state)
+  
+  pv_map <- d_pvstate_wide |>
+    filter(year == 2016) |>
+    left_join(states_map, by = "region")
+  
+  pv_win_map <- pv_map %>%
+    mutate(winner = ifelse(R_pv2p > D_pv2p, "republican", "democrat"))
+  
+  ggplot(data = pv_win_map, mapping = aes(x = long,
+                                          y = lat,
+                                          group = group)) +
+    geom_polygon(aes(fill = winner), color = "white") +
+    scale_fill_manual(values = c("democrat" = "dodgerblue4", "republican" = "firebrick")) +
+    theme_void() +
+    labs(title = "State Winners in the 2016 Presidential Election",
+         fill = "Winner")
+  
+
+
+```
+
+
+
+
+
+
+```{r, echo = FALSE}
+states_map <- map_data("state")
+  
+  d_pvstate_wide <- read.csv("clean_wide_state_2pv_1948_2020.csv")
+  
+  d_pvstate_wide$region <- tolower(d_pvstate_wide$state)
+  
+  pv_map <- d_pvstate_wide |>
+    filter(year == 2020) |>
+    left_join(states_map, by = "region")
+  
+  pv_win_map <- pv_map %>%
+    mutate(winner = ifelse(R_pv2p > D_pv2p, "republican", "democrat"))
+  
+  ggplot(data = pv_win_map, mapping = aes(x = long,
+                                          y = lat,
+                                          group = group)) +
+    geom_polygon(aes(fill = winner), color = "white") +
+    scale_fill_manual(values = c("democrat" = "dodgerblue4", "republican" = "firebrick")) +
+    theme_void() +
+    labs(title = "State Winners in the 2020 Presidential Election",
+         fill = "Winner")
+```
+
+
+
+```{r, echo = FALSE}
+
+poll_data <- read.csv("ABC_Ipsos_Poll_Results.csv")
+poll_data <- clean_names(poll_data)
+  
+  
+  poll_data$date <- as.factor(poll_data$date)
+  
+  str(poll_data)
+  
+  poll_data_long <- melt(poll_data, id.vars = "date", 
+                         variable.name = "candidate", 
+                         value.name = "percentage")
+  
+  str(poll_data_long)
+  
+  unique(poll_data_long$candidate)
+  
+  poll_data_long_filtered <- poll_data_long %>%
+    filter(candidate %in% c("harris", "trump"))
+  
+  print(poll_data_long_filtered)
+  
+  ggplot(poll_data_long_filtered, aes(x = date, y = percentage, fill = candidate)) +
+    geom_bar(stat = "identity", position = "dodge") + 
+    labs(title = "Public Opinion about the Elections of April - August 2024", 
+         x = "Date", 
+         y = "Percentage (%)") +
+    scale_fill_manual(values = c("harris" = "dodgerblue4", "trump" = "firebrick")) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+
+ 
+
+

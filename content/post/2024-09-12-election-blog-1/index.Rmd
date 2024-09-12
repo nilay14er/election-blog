@@ -23,7 +23,7 @@ library(janitor)
 
 
 
-```{r, echo = FALSE, message=FALSE} 
+```{r, echo = FALSE, message=FALSE, warning=FALSE} 
 
 
 state_vote_data <- data.frame(
@@ -73,7 +73,7 @@ state_vote_data <- data.frame(
 
 
 
-```{r, echo = FALSE, message=FALSE}
+```{r, echo = FALSE, message=FALSE, warning=FALSE} 
 states_map <- map_data("state")
   
   d_pvstate_wide <- read.csv("clean_wide_state_2pv_1948_2020.csv")
@@ -105,7 +105,7 @@ states_map <- map_data("state")
 
 
 
-```{r, echo = FALSE, message=FALSE}
+```{r, echo = FALSE, message=FALSE, warning=FALSE} 
 states_map <- map_data("state")
   
   d_pvstate_wide <- read.csv("clean_wide_state_2pv_1948_2020.csv")
@@ -131,7 +131,7 @@ states_map <- map_data("state")
 
 
 
-```{r, echo = FALSE, message=FALSE}
+```{r, echo = FALSE, message=FALSE, warning=FALSE} 
 
 poll_data <- read.csv("ABC_Ipsos_Poll_Results.csv")
 poll_data <- clean_names(poll_data)
@@ -139,20 +139,20 @@ poll_data <- clean_names(poll_data)
   
   poll_data$date <- as.factor(poll_data$date)
   
-  str(poll_data)
+  # str(poll_data)
   
   poll_data_long <- melt(poll_data, id.vars = "date", 
                          variable.name = "candidate", 
                          value.name = "percentage")
   
-  str(poll_data_long)
+  # str(poll_data_long)
   
-  unique(poll_data_long$candidate)
+  # unique(poll_data_long$candidate)
   
   poll_data_long_filtered <- poll_data_long %>%
     filter(candidate %in% c("harris", "trump"))
   
-  print(poll_data_long_filtered)
+  # print(poll_data_long_filtered)
   
   ggplot(poll_data_long_filtered, aes(x = date, y = percentage, fill = candidate)) +
     geom_bar(stat = "identity", position = "dodge") + 

@@ -13,7 +13,7 @@
       <link>https://example.org/post/2024/09/12/election-blog-1/</link>
       <pubDate>Thu, 12 Sep 2024 00:00:00 +0000</pubDate>
       <guid>https://example.org/post/2024/09/12/election-blog-1/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;## Warning in left_join(states_map, swing_data, by = &amp;quot;state&amp;quot;): Detected an unexpected many-to-many relationship between `x` and `y`.&#xA;## ℹ Row 1 of `x` matches multiple rows in `y`.&#xA;## ℹ Row 1 of `y` matches multiple rows in `x`.&#xA;## ℹ If a many-to-many relationship is expected, set `relationship =&#xA;##   &amp;quot;many-to-many&amp;quot;` to silence this warning.&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code&gt;## Warning: Removed 43 rows containing missing values (`geom_text_repel()`).&#xA;&lt;/code&gt;&lt;/pr</description>
+      <description>&lt;img src=&#34;https://example.org/post/2024/09/12/election-blog-1/index_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&#xA;&lt;img src=&#34;https://example.org/post/2024/09/12/election-blog-1/index_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&#xA;&lt;img src=&#34;https://example.org/post/2024/09/12/election-blog-1/index_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&#xA;&lt;img src=&#34;https://example.org/post/2024/09/12/election-blog-1/index_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;</description>
     </item>
     <item>
       <title>Blog Post 2</title>

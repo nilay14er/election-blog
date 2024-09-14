@@ -43,10 +43,9 @@ In the plot below, the relationship between third-quarter GDP growth and the inc
 ```{r, echo=FALSE}
 
 
-# Remove the 2020 data point
+
 cleaned_q3_filtered <- cleaned_q3_unique[cleaned_q3_unique$year != 2020, ]
 
-# Create the plot without the 2020 data point
 ggplot(cleaned_q3_filtered, aes(x = GDP_growth_quarterly, y = pv2p, label = year)) +    
     geom_text() +    
     geom_hline(yintercept = 50, lty = 2) +    

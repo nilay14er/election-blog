@@ -7,17 +7,31 @@ categories: []
 tags: []
 slug: "blog-post-2"
 ---
-```{r, echo=FALSE}
 
-library(car)
-library(tidyverse)
-library(ggplot2)
+```
+## Loading required package: carData
+```
 
-
-d_popvote <- read.csv("popvote_1948-2020.csv")
-d_fred <- read_csv("fred_econ.csv")
-cleaned_q3 <- read.csv("cleaned_q3_with_winner.csv")
-d_bea <- read.csv("bea_econ.csv")
+```
+## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.3     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ✖ dplyr::recode() masks car::recode()
+## ✖ purrr::some()   masks car::some()
+## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+## Rows: 387 Columns: 14
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## dbl (14): year, quarter, GDP, GDP_growth_quarterly, RDPI, RDPI_growth_quarte...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 
@@ -40,28 +54,7 @@ In the plot below, the relationship between third-quarter GDP growth and the inc
 
 
 
-```{r, echo=FALSE}
-
-
-
-cleaned_q3_filtered <- cleaned_q3[cleaned_q3$year != 2020, ]
-cleaned_q3_filtered <- cleaned_q3_filtered[!duplicated(cleaned_q3_filtered$year), ]
-
-
-ggplot(cleaned_q3_filtered, aes(x = GDP_growth_quarterly, y = pv2p, label = year)) +    
-    geom_text(check_overlap = TRUE) +  
-    geom_hline(yintercept = 50, lty = 2) +    
-    geom_vline(xintercept = 1, lty = 2) +    
-    labs(x = "Third Quarter GDP Growth (%)", 
-         y = "Incumbent Party's National Popular Vote Share") +    
-    theme_bw()
-
-
-
-
-
-
-```
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 
 The graph reveals that incumbents do not necessarily benefit from higher GDP growth. For example, even when GDP growth exceeds 1% (indicated by the vertical dashed line), the vote share does not always rise above 50% (the horizontal dashed line). This observation suggests that voters may weigh other factors more heavily than economic performance when casting their votes.
 
@@ -77,22 +70,7 @@ Unemployment is crucial indicator of economic performance and voter sentiment, r
 Below is a scatter plot depicting the relationship between *unemployment* and the *incumbent party’s popular vote* share:
 
 
-```{r, echo=FALSE}
-
-
-cleaned_q3_filtered <- cleaned_q3[cleaned_q3$year != 2020, ]
-cleaned_q3_filtered <- cleaned_q3_filtered[!duplicated(cleaned_q3_filtered$year), ]
-
-ggplot(cleaned_q3_filtered, aes(x = unemployment, y = pv2p, label = year)) +    
-    geom_text(check_overlap = TRUE) +    
-    geom_hline(yintercept = 50, lty = 2) +    
-    geom_vline(xintercept = 0.01, lty = 2) +    
-    labs(x = "Unemployment (%)", 
-         y = "Incumbent Party's National Popular Vote Share") +    
-    theme_bw()
-
-
-```
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 
 We observe that while there may be a general trend (higher unemployment correlating with a lower vote share for the incumbent), the relationship is not very strong or consistent. In other words, there may be other factors influencing the vote share besides unemployment. Does this indicate that maybe the economy is not an important factor when deciding on who to vote for but maybe just a trap.
 
@@ -105,32 +83,37 @@ Y=49.99-0.302X
 
 Where Y represents the incumbent party's vote share, and X is the third-quarter GDP growth:
 
-```{r, echo=FALSE}
-
-
-
-cleaned_q3_filtered <- cleaned_q3[cleaned_q3$year != 2020, ]
-cleaned_q3_filtered <- cleaned_q3_filtered[!duplicated(cleaned_q3_filtered$year), ]
-
-summary(lm(data = cleaned_q3_filtered, formula = pv2p ~ GDP_growth_quarterly))
-
-ggplot(cleaned_q3_filtered, aes(x = GDP_growth_quarterly, y = pv2p, label = year)) +    
-    geom_text(check_overlap = TRUE) +    
-    geom_smooth(method = "lm", formula = y ~ x) +    
-    geom_hline(yintercept = 50, lty = 2) +    
-    geom_vline(xintercept = 1, lty = 2) +    
-    labs(x = "Third Quarter GDP Growth (%)", 
-         y = "Incumbent Party's National Popular Vote Share", 
-         title = "Y = 49.99 - 0.302X") +    
-    theme_bw() +    
-    theme(plot.title = element_text(size = 18))
-
-
-
-
-
 
 ```
+## 
+## Call:
+## lm(formula = pv2p ~ GDP_growth_quarterly, data = cleaned_q3_filtered)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.4005 -4.0769  0.9392  2.7934 12.9470 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)           49.9901     2.0790  24.046 5.49e-14 ***
+## GDP_growth_quarterly  -0.3021     0.6854  -0.441    0.665    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 5.75 on 16 degrees of freedom
+## Multiple R-squared:  0.012,	Adjusted R-squared:  -0.04975 
+## F-statistic: 0.1943 on 1 and 16 DF,  p-value: 0.6653
+```
+
+```
+## Warning: The following aesthetics were dropped during statistical transformation: label
+## ℹ This can happen when ggplot fails to infer the correct grouping structure in
+##   the data.
+## ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+##   variable into a factor?
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 
 This negative slope indicates an inverse relationship between GDP growth and the vote share. Surprisingly, the model suggests that as GDP growth increases, the incumbent party's vote share tends to decrease. Specifically, each percentage point increase in GDP growth correlates with approximately a 0.3% decrease in the incumbent party’s vote share. 
 

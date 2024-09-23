@@ -7,11 +7,11 @@ categories: []
 tags: []
 slug: "blog-post-2"
 ---
-```{r, echo=FALSE}
+```{r, echo= FALSE, warining = FALSE, message= FALSE}
 
 library(car)
 library(tidyverse)
-library(ggplot2)
+library(ggplot2) 
 
 
 d_popvote <- read.csv("popvote_1948-2020.csv")
@@ -105,7 +105,7 @@ Y=49.99-0.302X
 
 Where Y represents the incumbent party's vote share, and X is the third-quarter GDP growth:
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 
 
 

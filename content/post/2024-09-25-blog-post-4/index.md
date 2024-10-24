@@ -13,6 +13,10 @@ slug: "blog-post-4"
 ## Warning: package 'CVXR' was built under R version 4.3.3
 ```
 
+```
+## Warning: package 'sf' was built under R version 4.3.3
+```
+
 
 
 *The Incumbency Factor: Shaping the 2024 Presidential Race*

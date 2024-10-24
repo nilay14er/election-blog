@@ -1,0 +1,219 @@
+---
+title: "Blog Post 6"
+author: "Nilay Ersoy"
+date: "2024-10-09"
+output: pdf_document
+categories: []
+tags: []
+slug: "blog-post-6"
+---
+
+```{r, echo=FALSE, message=FALSE}
+library(car)
+library(caret)
+library(cowplot)
+library(curl)
+library(CVXR)
+library(foreign)
+library(geofacet)
+library(glmnet)
+library(haven)
+library(janitor)
+library(kableExtra)
+library(maps)
+library(mlr3)
+library(randomForest)
+library(ranger)
+library(RColorBrewer)
+library(rstan)
+library(scales)
+library(sf)
+library(tidyverse)
+library(viridis)
+library(shinystan)
+
+```
+
+
+```{r, echo=FALSE, message=FALSE}
+ad_campaigns <- read.csv("ad_campaigns_2000-2012.csv")
+ad_creative <- read.csv("ad_creative_2000-2012.csv")
+
+ads_2020 <- read.csv("ads_2020.csv")
+
+```
+
+
+
+
+
+
+*The Air War in Political Campaigns*
+
+
+
+_This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com). Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election._
+
+
+
+*Introduction:*
+
+In modern political campaigns, the "air war" refers to the strategic deployment of advertisements across television, radio, and digital platforms. These ads are critical in shaping public perception, mobilizing support, and swaying undecided voters. Advertisements allow candidates to communicate their stances on key issues, respond to attacks, and build an appealing image. But the key question remains: does increased advertising truly influence electoral success?
+
+In this post, we’ll explore advertising trends across recent U.S. elections, focusing on party differences in ad tone and volume. Using data from election cycles between 2000-2012 and a closer look at the 2020 election, we’ll analyze whether a larger advertising footprint can be linked to better electoral outcomes. Lastly, we'll take a look at my updated prediction model to see any correlation between how parties utilized advertisements in the past and if we find a similar pattern in the 2024 election.
+
+
+
+
+*Tone of Political Ads Over Time:*
+
+Political advertisements are often crafted with a specific tone, ranging from positive promotions to negative attacks. The tone chosen can reveal how a party perceives its strengths and weaknesses relative to the opposition. The chart below illustrates the distribution of ad tones by party over several election cycles.
+
+
+```{r, echo=FALSE, message=FALSE}
+ad_creative <- ad_creative %>%
+  mutate(cycle = as.factor(cycle),
+         party = as.factor(party),
+         ad_tone = as.factor(ad_tone))
+
+tone_data <- ad_creative %>%
+  filter(!is.na(ad_tone)) %>%
+  group_by(cycle, party, ad_tone) %>%
+  summarise(count = n()) %>%
+  mutate(total = sum(count), percentage = (count / total) * 100)
+
+
+ggplot(tone_data, aes(x = factor(cycle), y = percentage, fill = ad_tone)) +
+  geom_bar(stat = "identity", position = "stack") +
+  facet_wrap(~ party) +
+  scale_fill_manual(values = c("red", "orange", "gray", "darkgreen", "white"), name = "Tone") +
+  labs(title = "Tone of Political Ads by Party (2000 - 2012)", x = "Election Cycle", y = "Percentage of Ads") +
+  theme_minimal()
+
+
+
+
+
+
+```
+
+In the 2000-2012 elections, Democrats and Republicans displayed different strategies in their advertising tones. Notably, Republicans favored attack ads more consistently, while Democrats had a higher proportion of promotional content. This choice of tone might reflect the parties’ perceived need to go on the offensive versus reinforcing their candidate's positive qualities.
+
+
+
+*Advertisement Volume and Party Focus in 2020:*
+
+The 2020 election saw both parties ramp up their advertising efforts across various media platforms. As shown below, Democrats aired a higher total number of ads compared to Republicans.
+ 
+```{r, echo=FALSE, message=FALSE}
+
+
+ads_2020_summary <- ads_2020 %>%
+  select(biden_airings, trump_airings) %>%
+  summarise(
+    democrat_ads = sum(biden_airings, na.rm = TRUE),
+    republican_ads = sum(trump_airings, na.rm = TRUE)
+  ) %>%
+  pivot_longer(cols = everything(), names_to = "party", values_to = "total_ads") %>%
+  mutate(party = ifelse(party == "democrat_ads", "Democrat", "Republican"))
+
+ggplot(ads_2020_summary, aes(x = party, y = total_ads, fill = party)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("dodgerblue4", "red3"), labels = c("Democrat", "Republican")) +
+  labs(title = "Total Advertisements by Party in 2020", x = "Party", y = "Total Ads") +
+  theme_minimal()
+
+
+```
+
+With more than 500,000 ads aired by Democrats compared to Republicans, it’s clear that the Democratic Party invested heavily in the air war for this election cycle. However, the number of ads is just one part of the equation; it’s also essential to consider where and when these ads are placed to maximize their effectiveness. While the Democrats’ strategy of higher ad volume suggests a focus on media presence, the impact of this approach on voting turnout is less straightforward. Research has shown that increased ad spending doesn’t necessarily translate to higher voter turnout. 
+
+Despite a larger volume of ads, there isn’t a direct correlation between ad saturation and an increase in people heading to the polls. Voters’ motivations are influenced by various factors, and simply boosting ad numbers doesn't guarantee a proportional rise in turnout. However, the tone of the adds does effect how voters behave; we see that when [adds attack more promote that people tend not vote in general](https://insight.kellogg.northwestern.edu/article/how-much-do-campaign-ads-matter).
+
+The data from 2020 shows Democrats had a significant advertising lead, but this doesn’t necessarily imply a linear relationship with electoral victory. Many other variables, such as grassroots support, campaign funding, and media coverage, contribute to the final results. For instance, despite heavy advertising, candidates who do not resonate with the electorate’s core concerns might still fail to secure a win.
+
+
+*Exploring Political Trends with ARIMA Forecasting:*
+
+The primary data sources for this model are state-level polls from 1968 to 2024 and the electoral college results for the same period. For this analysis, I filtered the data specifically for 2024 to focus on current trends. This involved merging poll results and electoral college data, calculating the difference in support between Democrats and Republicans, and then aggregating the data by state and weeks leading up to the election.
+
+The variable diff_support measures the difference in mean poll support between Democratic and Republican candidates over time. By tracking this variable on a weekly basis, I can capture how voter preferences change as the election date approaches, giving insights into which party has the upper hand in each state.
+
+
+*Modeling Approach:*
+
+I employed an ARIMA(3) model, a type of auto-regressive model that considers three previous time points to predict the next one. Initially, I modeled diff_support at a national level, but then enhanced the model to look at the past 3 week polls, as electoral outcomes can vary significantly from multiple weeks.
+
+For each state, the ARIMA model calculates the expected diff_support value, which indicates whether the Democrats or Republicans are forecasted to lead. This enhanced approach allows for a more granular analysis, which is especially useful in the U.S.
+
+
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(tidyr)
+library(forecast)
+
+state_polls <- read.csv("state_polls_1968-2024.csv")
+electoral_college <- read.csv("corrected_ec_1948_2024.csv")
+
+state_polls_2024 <- state_polls %>% filter(year == 2024)
+electoral_college_2024 <- electoral_college %>% filter(year == 2024)
+
+combined_data <- merge(electoral_college_2024, state_polls_2024, by = "state", all.x = TRUE)
+write.csv(combined_data, "combined_data.csv", row.names = FALSE)
+
+combined_data_aggregated <- combined_data %>%
+  group_by(state, weeks_left, party) %>%
+  summarize(poll_support = mean(poll_support, na.rm = TRUE), .groups = 'drop')
+
+combined_data_wide <- combined_data_aggregated %>%
+  pivot_wider(names_from = party, values_from = poll_support) %>%
+  mutate(diff_support = DEM - REP)
+
+national_data <- combined_data_wide %>%
+  group_by(weeks_left) %>%
+  summarize(mean_diff = mean(diff_support, na.rm = TRUE))
+
+ar_model <- Arima(national_data$mean_diff, order = c(3, 0, 0))
+
+summary(ar_model)
+
+forecast_result <- forecast(ar_model, h = 1)
+print(forecast_result)
+
+predicted_winner <- ifelse(forecast_result$mean > 0, "Democrats", "Republicans")
+print(predicted_winner)
+
+library(ggplot2)
+
+ggplot(national_data, aes(x = weeks_left, y = mean_diff)) +
+  geom_line(color = "blue") +
+  geom_point(color = "red") +
+  labs(title = "Mean Difference Over Time", x = "Weeks Left", y = "Mean Difference (DEM - REP)") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+```
+
+As the map indicates, we see variances across states, with certain regions leaning heavily towards one party. However, battleground states show narrower margins, reflecting their historical significance in determining election outcomes. The model’s results suggest that, while some states are predictably aligned, others could swing with last-minute changes in public opinion. We can observe that weeks further away from the election Harris had a strong hold on the polls, but looking at the past three weeks in polls the results show that the closer we get to election day it's more likely for Trump to win.
+
+
+
+*Conclusion:*
+
+The influence of advertising on election outcomes is complex and multifaceted. While advertisements are essential for visibility and shaping public perception, their direct impact on voting behavior varies. In highly competitive states, where undecided voters may be more susceptible to influence, targeted advertising can play a pivotal role. However, in states with a strong partisan leaning, advertising often reinforces existing opinions rather than changing minds.
+
+The patterns observed in the historical advertising data reflect strategic choices made by each party, often tailored to their perceived strengths and weaknesses. For example, Democrats’ preference for positive promotional ads versus Republicans’ tendency for more attack-oriented messages could be a reflection of how each party attempts to sway different voter bases. The 2020 data, where Democrats aired significantly more ads, underscores a heavy reliance on the "air war" to engage voters, though the ultimate impact on votes depends on factors beyond mere volume.
+
+When correlating these advertising patterns with my ARIMA-based prediction model, an interesting alignment emerges. States with a narrow margin in predicted support between Democrats and Republicans often align with those targeted most heavily by advertisements. This suggests that while advertising may not single-handedly determine outcomes, it likely complements existing trends captured by the model, potentially tipping the balance in closely contested states.
+
+Ultimately, while advertising is a powerful tool, its effectiveness is amplified when used in conjunction with data-driven insights. The ARIMA model highlights which states are more competitive, guiding strategic ad placements that could influence key swing states. Therefore, while advertising alone may not be the definitive factor in winning elections, when combined with predictive analytics, it enhances a campaign's ability to make informed, impactful decisions.
+
+
+
+
+
+
+

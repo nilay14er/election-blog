@@ -28,90 +28,22 @@
 <main>
 <pre><code>## Warning: package 'sf' was built under R version 4.3.3
 </code></pre>
-<pre><code class="language-r">library(ggplot2)
-library(sf)
-library(readr)
-library(maps)
-library(ggspatial)
-
-# Read field office data (adjust file path as necessary)
-d_field_offices &lt;- read_csv(&quot;fieldoffice_2012-2016_byaddress.csv&quot;)
-</code></pre>
-<pre><code>## Rows: 1777 Columns: 8
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (5): party, candidate, state, city, full_address
-## dbl (3): year, latitude, longitude
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<pre><code class="language-r"># Convert to an sf object for plotting
-d_field_offices_sf &lt;- st_as_sf(d_field_offices, coords = c(&quot;longitude&quot;, &quot;latitude&quot;), crs = 4326)
-
-# Load USA map
-us_map &lt;- st_as_sf(maps::map(&quot;usa&quot;, plot = FALSE, fill = TRUE))
-
-# Plot field offices on a map of the USA
-ggplot() +
-  geom_sf(data = us_map, fill = &quot;gray80&quot;, color = &quot;white&quot;) + # Map of the USA
-  geom_sf(data = d_field_offices_sf, color = &quot;red&quot;, size = 2, shape = 21, fill = &quot;red&quot;) + # Field offices
-  labs(title = &quot;Locations of Previous Field Offices&quot;) +
-  theme_minimal()
-</code></pre>
+<p><em>The Role of Ground War Tactics in Election Campaigns</em></p>
+<p><em>This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor <a href="https://www.ryandenos.com">Ryan Enos</a>. Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election.</em></p>
+<p><em>Introduction:</em></p>
+<p>In the high-stakes realm of political elections, the term &ldquo;ground war&rdquo; refers to the strategic placement of campaign field offices and direct voter contact efforts. These grassroots tactics are crucial for mobilizing supporters and can significantly impact the outcome of an election. This blog post examines the importance of ground war strategies in political campaigns, supported by recent data and historical trends. We&rsquo;ll also consider how these tactics might influence the upcoming elections and why their impact could be mitigated by modern campaign developments.</p>
+<p><em>Ground War Dynamics:</em></p>
+<p>Field offices serve as local hubs for campaign operations, providing a base for phone banking, canvassing, and volunteer activities. Their distribution across states can offer insights into a campaign’s focus areas and predicted voter turnout. Historically, campaigns like those of Obama in 2012 and Trump in 2016 have shown a broad distribution of field offices, reflecting a strategy to engage voters across diverse geographic areas.</p>
+<p>The Graphs underscore the disparity in the presence of field offices between different campaigns and election years. For instance, Obama&rsquo;s 2012 campaign demonstrated a substantial grassroots presence, which is often credited with helping secure his reelection through enhanced voter mobilization.</p>
 <img src="https://example.org/post/2024/10/19/blog-post-7/index_files/figure-html/unnamed-chunk-3-1.png" width="672" />
-<pre><code class="language-r">fo_2012&lt;- read_csv(&quot;fieldoffice_2012_bycounty.csv&quot;)
-</code></pre>
-<pre><code>## Rows: 3113 Columns: 16
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (1): state
-## dbl (11): fips, obama12fo, romney12fo, normal, medage08, pop2008, medinc08, ...
-## lgl  (4): battle, swing, core_dem, core_rep
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<pre><code class="language-r">lm_obama &lt;- lm(obama12fo ~ romney12fo + 
-                 swing + 
-                 core_rep + 
-                 swing:romney12fo + 
-                 core_rep:romney12fo + 
-                 battle + 
-                 medage08 + 
-                 pop2008 + 
-                 pop2008^2 + 
-                 medinc08 + 
-                 black + 
-                 hispanic + 
-                 pc_less_hs00 + 
-                 pc_degree00 + 
-                 as.factor(state), 
-               fo_2012)
-
-lm_romney &lt;- lm(romney12fo ~ 
-                  obama12fo + 
-                  swing + 
-                  core_dem + 
-                  swing:obama12fo + 
-                  core_dem:obama12fo + 
-                  battle + 
-                  medage08 + 
-                  pop2008 + 
-                  pop2008^2 + 
-                  medinc08 + 
-                  black + 
-                  hispanic + 
-                  pc_less_hs00 + 
-                  pc_degree00 + 
-                  as.factor(state),
-                  fo_2012)
-
-stargazer(lm_obama, lm_romney, header=FALSE, type='latex', no.space = TRUE,
-          column.sep.width = &quot;3pt&quot;, font.size = &quot;scriptsize&quot;, single.row = TRUE,
-          keep = c(1:7, 62:66), omit.table.layout = &quot;sn&quot;,
-          title = &quot;Placement of Field Offices (2012)&quot;)
-</code></pre>
+<p>In 2012, President Barack Obama&rsquo;s re-election campaign demonstrated a strategic deployment of field offices across the United States, as seen in the first graph. The extensive spread of field offices, especially concentrated in key battleground states, reflects a strong ground game aimed at maximizing voter outreach and engagement. The Obama campaign&rsquo;s field offices were instrumental in mobilizing volunteers, orchestrating door-to-door canvassing, and facilitating voter registration drives.</p>
+<p>The widespread presence of these offices likely contributed to the high voter turnout seen in many of these areas, which played a crucial role in Obama securing a second term. The effectiveness of Obama’s ground strategy in 2012 is a testament to the power of a well-organized field operation that actively engages with the electorate at a local level.</p>
+<p>Contrasting with Obama, Mitt Romney’s 2012 campaign also established a significant number of field offices, predominantly in historically Republican-leaning and swing states. However, the density and strategic placement of Romney&rsquo;s offices did not match the scope and effectiveness of Obama&rsquo;s network. This discrepancy might partly explain why Romney was less successful in mobilizing a comparable level of grassroots support.</p>
+<p>Moving to the 2016 election, the field office strategy underwent noticeable shifts. Hillary Clinton&rsquo;s campaign, depicted in the third image of the initial set, invested heavily in field offices, similar to Obama&rsquo;s approach in 2012. Clinton’s campaign hoped to replicate Obama&rsquo;s success by employing a robust ground game, aiming to bolster voter turnout especially in critical swing states.</p>
+<p>In contrast, Donald Trump&rsquo;s campaign appeared to have fewer field offices, as seen in the fourth image. Despite this, Trump&rsquo;s campaign strategy capitalized on large-scale rallies and a significant digital presence, which, combined with targeted electoral strategies, proved to be unexpectedly effective, leading to his victory. Trump’s win despite having fewer field offices challenges the traditional view on the necessity of extensive physical campaign infrastructures, highlighting the evolving nature of campaign strategies in the digital age.</p>
+<p><em>Implications and Effectiveness:</em></p>
+<p>The presence of more field offices generally implies a greater capacity for voter engagement activities directly at the grassroots level. Campaigns with extensive field office networks are typically better positioned to implement ground activities such as canvassing, local events, and direct voter interaction, which are critical for boosting voter turnout and swaying undecided voters.</p>
+<p>However, as seen in the comparison of different campaigns, more field offices do not automatically translate to electoral success. The effectiveness of these offices depends on how well they are integrated into the overall campaign strategy, including how they are supported by other elements such as media advertising, digital outreach, and the broader campaign messaging.</p>
 <pre><code>## 
 ## \begin{table}[!htbp] \centering 
 ##   \caption{Placement of Field Offices (2012)} 
@@ -143,98 +75,50 @@ stargazer(lm_obama, lm_romney, header=FALSE, type='latex', no.space = TRUE,
 ## \end{tabular} 
 ## \end{table}
 </code></pre>
-<pre><code class="language-r"># Effects of field offices on turnout and vote share. 
-fo_dem &lt;- read_csv(&quot;fieldoffice_2004-2012_dems.csv&quot;)
-</code></pre>
-<pre><code>## Rows: 9339 Columns: 18
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (2): candidate, state
-## dbl (15): year, fips, number_fo, dummy_fo, population, totalvote, demvote, d...
-## lgl  (1): battle
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<pre><code class="language-r">ef_t &lt;- lm(turnout_change ~ dummy_fo_change + battle + dummy_fo_change:battle + as.factor(state) + as.factor(year), fo_dem)
-
-ef_d &lt;- lm(dempct_change ~ dummy_fo_change + battle + dummy_fo_change:battle + as.factor(state) + as.factor(year), fo_dem)
-
-stargazer(ef_t, ef_d, header=FALSE, type='latex', no.space = TRUE,
-          column.sep.width = &quot;3pt&quot;, font.size = &quot;scriptsize&quot;, single.row = TRUE,
-          keep = c(1:3, 53:54), keep.stat = c(&quot;n&quot;, &quot;adj.rsq&quot;, &quot;res.dev&quot;),
-          title = &quot;Effect of DEM Field Offices on Turnout and DEM Vote Share (2004-2012)&quot;)
-</code></pre>
-<pre><code>## 
-## \begin{table}[!htbp] \centering 
-##   \caption{Effect of DEM Field Offices on Turnout and DEM Vote Share (2004-2012)} 
-##   \label{} 
-## \scriptsize 
-## \begin{tabular}{@{\extracolsep{3pt}}lcc} 
-## \\[-1.8ex]\hline 
-## \hline \\[-1.8ex] 
-##  &amp; \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
-## \cline{2-3} 
-## \\[-1.8ex] &amp; turnout\_change &amp; dempct\_change \\ 
-## \\[-1.8ex] &amp; (1) &amp; (2)\\ 
-## \hline \\[-1.8ex] 
-##  dummy\_fo\_change &amp; 0.004$^{***}$ (0.001) &amp; 0.009$^{***}$ (0.002) \\ 
-##   battle &amp; 0.024$^{***}$ (0.002) &amp; 0.043$^{***}$ (0.003) \\ 
-##   as.factor(state)Arizona &amp;  &amp;  \\ 
-##   dummy\_fo\_change:battle &amp; $-$0.002 (0.002) &amp; 0.007$^{**}$ (0.003) \\ 
-##   Constant &amp; 0.029$^{***}$ (0.002) &amp; 0.022$^{***}$ (0.003) \\ 
-##  \hline \\[-1.8ex] 
-## Observations &amp; 6,224 &amp; 6,224 \\ 
-## Adjusted R$^{2}$ &amp; 0.419 &amp; 0.469 \\ 
-## \hline 
-## \hline \\[-1.8ex] 
-## \textit{Note:}  &amp; \multicolumn{2}{r}{$^{*}$p$&lt;$0.1; $^{**}$p$&lt;$0.05; $^{***}$p$&lt;$0.01} \\ 
-## \end{tabular} 
-## \end{table}
-</code></pre>
-<pre><code class="language-r"># Field Strategies of Obama, Romney, Clinton, and Trump in 2016. 
-fo_add &lt;- read_csv(&quot;fieldoffice_2012-2016_byaddress.csv&quot;)
-</code></pre>
-<pre><code>## Rows: 1777 Columns: 8
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (5): party, candidate, state, city, full_address
-## dbl (3): year, latitude, longitude
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<pre><code class="language-r">us_geo &lt;- counties(cb = TRUE) |&gt; 
-  shift_geometry() |&gt; 
-  filter(STUSPS %in% unique(fo_add$state))
-</code></pre>
-<pre><code>## Retrieving data for the year 2022
-</code></pre>
+<p>\begin{table}[!htbp] \centering
+\caption{Placement of Field Offices (2012)}
+\label{}
+\scriptsize
+\begin{tabular}{@{\extracolsep{3pt}}lcc}
+\[-1.8ex]\hline
+\hline \[-1.8ex]
+&amp; \multicolumn{2}{c}{\textit{Dependent variable:}} \
+\cline{2-3}
+\[-1.8ex] &amp; obama12fo &amp; romney12fo \
+\[-1.8ex] &amp; (1) &amp; (2)\
+\hline \[-1.8ex]
+romney12fo &amp; 2.546$^{<em><strong>}$ (0.114) &amp;  \
+obama12fo &amp;  &amp; 0.374$^{</strong></em>}$ (0.020) \
+swing &amp; 0.001 (0.055) &amp; $-$0.012 (0.011) \
+core_rep &amp; 0.007 (0.061) &amp;  \
+core_dem &amp;  &amp; 0.004 (0.027) \
+battle &amp; 0.541$^{<em><strong>}$ (0.096) &amp; 0.014 (0.042) \
+medage08 &amp;  &amp;  \
+romney12fo:swing &amp; $-$0.765$^{</strong></em>}$ (0.116) &amp;  \
+romney12fo:core_rep &amp; $-$1.875$^{<em><strong>}$ (0.131) &amp;  \
+obama12fo:swing &amp;  &amp; $-$0.081$^{</strong></em>}$ (0.020) \
+obama12fo:core_dem &amp;  &amp; $-$0.164$^{**<em>}$ (0.023) \
+Constant &amp; $-$0.340$^{</em>}$ (0.196) &amp; 0.001 (0.079) \
+\hline \[-1.8ex]
+\hline
+\hline \[-1.8ex]
+\end{tabular}
+\end{table}</p>
+<p>In the tactical realm of U.S. presidential elections, the strategic placement of field offices underscores the intensity of the &ldquo;ground war.&rdquo; The 2012 campaign between Barack Obama and Mitt Romney is a prime example, with regression analysis revealing significant numbers that underscore strategic movements. For instance, Obama&rsquo;s field office presence in battleground states was a strong tactic, evidenced by a coefficient of 0.541, highlighting aggressive efforts to mobilize support in pivotal areas. Romney&rsquo;s strategy, in contrast, was more reactive; his field office deployment was significantly influenced by Obama’s placements, shown by a coefficient of 2.546 when responding to Obama&rsquo;s field offices, indicating a direct counter-effort to match Democratic presence.</p>
+<p>These coefficients not only quantify the strategic push in key electoral zones but also reveal the dynamic interplay of campaign strategies where placement was not random but highly calculated. Romney’s additional adjustment based on swing states, with a negative coefficient of -0.765 for his interaction with swing states, shows a strategic withdrawal or reallocation of resources in less promising areas, suggesting a nuanced approach to resource management. This data-driven look into campaign strategies provides a crucial understanding of how field operations are deployed to maximize electoral influence, illustrating the calculative nature of political campaigns and their adaptability to on-ground realities.</p>
 <pre><code>## 
   |                                                                            
   |                                                                      |   0%
-  |                                                                            
-  |                                                                      |   1%
   |                                                                            
   |=                                                                     |   1%
   |                                                                            
   |=                                                                     |   2%
   |                                                                            
-  |==                                                                    |   2%
-  |                                                                            
   |==                                                                    |   3%
-  |                                                                            
-  |==                                                                    |   4%
   |                                                                            
   |===                                                                   |   4%
   |                                                                            
-  |===                                                                   |   5%
-  |                                                                            
-  |====                                                                  |   5%
-  |                                                                            
   |====                                                                  |   6%
-  |                                                                            
-  |=====                                                                 |   6%
   |                                                                            
   |=====                                                                 |   7%
   |                                                                            
@@ -242,23 +126,13 @@ fo_add &lt;- read_csv(&quot;fieldoffice_2012-2016_byaddress.csv&quot;)
   |                                                                            
   |======                                                                |   8%
   |                                                                            
-  |======                                                                |   9%
-  |                                                                            
-  |=======                                                               |   9%
-  |                                                                            
   |=======                                                               |  10%
-  |                                                                            
-  |=======                                                               |  11%
   |                                                                            
   |========                                                              |  11%
   |                                                                            
   |========                                                              |  12%
   |                                                                            
-  |=========                                                             |  12%
-  |                                                                            
   |=========                                                             |  13%
-  |                                                                            
-  |==========                                                            |  14%
   |                                                                            
   |==========                                                            |  15%
   |                                                                            
@@ -278,15 +152,7 @@ fo_add &lt;- read_csv(&quot;fieldoffice_2012-2016_byaddress.csv&quot;)
   |                                                                            
   |==============                                                        |  21%
   |                                                                            
-  |===============                                                       |  21%
-  |                                                                            
   |===============                                                       |  22%
-  |                                                                            
-  |================                                                      |  22%
-  |                                                                            
-  |================                                                      |  23%
-  |                                                                            
-  |=================                                                     |  24%
   |                                                                            
   |=================                                                     |  25%
   |                                                                            
@@ -294,21 +160,13 @@ fo_add &lt;- read_csv(&quot;fieldoffice_2012-2016_byaddress.csv&quot;)
   |                                                                            
   |===================                                                   |  27%
   |                                                                            
-  |===================                                                   |  28%
-  |                                                                            
   |====================                                                  |  28%
   |                                                                            
   |====================                                                  |  29%
   |                                                                            
-  |=====================                                                 |  29%
-  |                                                                            
   |=====================                                                 |  30%
   |                                                                            
-  |=====================                                                 |  31%
-  |                                                                            
   |======================                                                |  31%
-  |                                                                            
-  |======================                                                |  32%
   |                                                                            
   |=======================                                               |  32%
   |                                                                            
@@ -318,97 +176,45 @@ fo_add &lt;- read_csv(&quot;fieldoffice_2012-2016_byaddress.csv&quot;)
   |                                                                            
   |========================                                              |  35%
   |                                                                            
-  |=========================                                             |  35%
-  |                                                                            
   |=========================                                             |  36%
   |                                                                            
-  |==========================                                            |  36%
-  |                                                                            
   |==========================                                            |  37%
-  |                                                                            
-  |==========================                                            |  38%
   |                                                                            
   |===========================                                           |  38%
   |                                                                            
   |===========================                                           |  39%
   |                                                                            
-  |============================                                          |  39%
-  |                                                                            
-  |============================                                          |  40%
-  |                                                                            
-  |============================                                          |  41%
-  |                                                                            
   |=============================                                         |  41%
-  |                                                                            
-  |=============================                                         |  42%
-  |                                                                            
-  |==============================                                        |  42%
   |                                                                            
   |==============================                                        |  43%
   |                                                                            
   |===============================                                       |  44%
   |                                                                            
-  |===============================                                       |  45%
-  |                                                                            
   |================================                                      |  45%
   |                                                                            
   |================================                                      |  46%
-  |                                                                            
-  |=================================                                     |  47%
   |                                                                            
   |=================================                                     |  48%
   |                                                                            
   |==================================                                    |  48%
   |                                                                            
-  |==================================                                    |  49%
-  |                                                                            
   |===================================                                   |  50%
-  |                                                                            
-  |===================================                                   |  51%
   |                                                                            
   |====================================                                  |  51%
   |                                                                            
   |====================================                                  |  52%
   |                                                                            
-  |=====================================                                 |  52%
-  |                                                                            
-  |=====================================                                 |  53%
-  |                                                                            
-  |=====================================                                 |  54%
-  |                                                                            
   |======================================                                |  54%
-  |                                                                            
-  |======================================                                |  55%
-  |                                                                            
-  |=======================================                               |  55%
-  |                                                                            
-  |=======================================                               |  56%
   |                                                                            
   |========================================                              |  57%
   |                                                                            
-  |========================================                              |  58%
-  |                                                                            
-  |=========================================                             |  58%
-  |                                                                            
-  |=========================================                             |  59%
-  |                                                                            
   |==========================================                            |  59%
-  |                                                                            
-  |==========================================                            |  60%
-  |                                                                            
-  |==========================================                            |  61%
   |                                                                            
   |===========================================                           |  61%
   |                                                                            
-  |===========================================                           |  62%
-  |                                                                            
   |============================================                          |  62%
   |                                                                            
-  |============================================                          |  63%
-  |                                                                            
-  |=============================================                         |  64%
-  |                                                                            
-  |==============================================                        |  65%
+  |=============================================                         |  65%
   |                                                                            
   |==============================================                        |  66%
   |                                                                            
@@ -416,17 +222,11 @@ fo_add &lt;- read_csv(&quot;fieldoffice_2012-2016_byaddress.csv&quot;)
   |                                                                            
   |================================================                      |  68%
   |                                                                            
-  |================================================                      |  69%
-  |                                                                            
   |=================================================                     |  70%
-  |                                                                            
-  |=================================================                     |  71%
   |                                                                            
   |==================================================                    |  71%
   |                                                                            
   |==================================================                    |  72%
-  |                                                                            
-  |===================================================                   |  72%
   |                                                                            
   |===================================================                   |  73%
   |                                                                            
@@ -434,33 +234,21 @@ fo_add &lt;- read_csv(&quot;fieldoffice_2012-2016_byaddress.csv&quot;)
   |                                                                            
   |====================================================                  |  75%
   |                                                                            
-  |=====================================================                 |  75%
-  |                                                                            
   |=====================================================                 |  76%
   |                                                                            
   |======================================================                |  77%
-  |                                                                            
-  |======================================================                |  78%
   |                                                                            
   |=======================================================               |  78%
   |                                                                            
   |=======================================================               |  79%
   |                                                                            
-  |========================================================              |  79%
-  |                                                                            
-  |========================================================              |  80%
-  |                                                                            
-  |=========================================================             |  81%
+  |========================================================              |  81%
   |                                                                            
   |=========================================================             |  82%
-  |                                                                            
-  |==========================================================            |  82%
   |                                                                            
   |==========================================================            |  83%
   |                                                                            
   |===========================================================           |  84%
-  |                                                                            
-  |===========================================================           |  85%
   |                                                                            
   |============================================================          |  85%
   |                                                                            
@@ -468,168 +256,40 @@ fo_add &lt;- read_csv(&quot;fieldoffice_2012-2016_byaddress.csv&quot;)
   |                                                                            
   |=============================================================         |  87%
   |                                                                            
-  |=============================================================         |  88%
-  |                                                                            
   |==============================================================        |  88%
-  |                                                                            
-  |==============================================================        |  89%
-  |                                                                            
-  |===============================================================       |  89%
   |                                                                            
   |===============================================================       |  90%
   |                                                                            
-  |===============================================================       |  91%
-  |                                                                            
-  |================================================================      |  91%
-  |                                                                            
   |================================================================      |  92%
-  |                                                                            
-  |=================================================================     |  92%
   |                                                                            
   |=================================================================     |  93%
   |                                                                            
-  |=================================================================     |  94%
-  |                                                                            
   |==================================================================    |  94%
-  |                                                                            
-  |==================================================================    |  95%
   |                                                                            
   |===================================================================   |  95%
   |                                                                            
-  |===================================================================   |  96%
-  |                                                                            
-  |====================================================================  |  96%
-  |                                                                            
   |====================================================================  |  97%
   |                                                                            
-  |===================================================================== |  98%
+  |====================================================================  |  98%
   |                                                                            
   |===================================================================== |  99%
   |                                                                            
-  |======================================================================|  99%
-  |                                                                            
   |======================================================================| 100%
 </code></pre>
-<pre><code class="language-r">obama12 &lt;- subset(fo_add, year == 2012 &amp; candidate == &quot;Obama&quot;) %&gt;%
-  select(longitude, latitude)
-romney12 &lt;- subset(fo_add, year == 2012 &amp; candidate == &quot;Romney&quot;) %&gt;%
-  select(longitude, latitude)
-clinton16 &lt;- subset(fo_add, year == 2016 &amp; candidate == &quot;Clinton&quot;) %&gt;%
-  select(longitude, latitude)
-trump16 &lt;- subset(fo_add, year == 2016 &amp; candidate == &quot;Trump&quot;) %&gt;%
-  select(longitude, latitude)
-
-obama12transformed &lt;- st_as_sf(obama12, coords = c(&quot;longitude&quot;, &quot;latitude&quot;), crs = 4326) |&gt; 
-  st_transform(crs = st_crs(us_geo)) |&gt; 
-  shift_geometry()
-romney12transformed &lt;- st_as_sf(romney12, coords = c(&quot;longitude&quot;, &quot;latitude&quot;), crs = 4326) |&gt;
-  st_transform(crs = st_crs(us_geo)) |&gt;
-  shift_geometry()
+<p><img src="https://example.org/post/2024/10/19/blog-post-7/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="https://example.org/post/2024/10/19/blog-post-7/index_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="https://example.org/post/2024/10/19/blog-post-7/index_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
+<p><em>Forecasting Model Update:</em></p>
+<p>In my latest foray into the mystic realm of election forecasting, where numbers replace crystal balls, I&rsquo;ve taken to employing an ARIMA model, specifically an AR(1) configuration, to predict shifts in political support across the states. This model, grounded in hard data rather than tea leaves, uses past differences in poll support to project future electoral trends.</p>
+<p>I delve into the specifics state by state, requiring a minimum of three data points to make a prediction—a testament to the importance of a solid historical foundation before venturing into forecasts. Each state&rsquo;s prediction includes a forecasted change in poll support and an R-squared value, a statistic that quantifies how much of past voting behavior the model explains.</p>
+<pre><code>## [1] &quot;Average R-squared across states: 0.647275067041126&quot;
 </code></pre>
-<pre><code>## Warning: None of your features are in Alaska, Hawaii, or Puerto Rico, so no geometries will be shifted.
-## Transforming your object's CRS to 'ESRI:102003'
+<pre><code>## [1] &quot;Outcome of Forecast for Pennsylvania: 0.430145778917614&quot;
 </code></pre>
-<pre><code class="language-r">clinton16transformed &lt;- st_as_sf(clinton16, coords = c(&quot;longitude&quot;, &quot;latitude&quot;), crs = 4326) |&gt;
-  st_transform(crs = st_crs(us_geo)) |&gt;
-  shift_geometry()
-trump16transformed &lt;- st_as_sf(trump16, coords = c(&quot;longitude&quot;, &quot;latitude&quot;), crs = 4326) |&gt;
-  st_transform(crs = st_crs(us_geo)) |&gt;
-  shift_geometry()
+<pre><code>## [1] &quot;Outcome of Forecast for Georgia: -1.19504210715145&quot;
 </code></pre>
-<pre><code>## Warning: None of your features are in Alaska, Hawaii, or Puerto Rico, so no geometries will be shifted.
-## Transforming your object's CRS to 'ESRI:102003'
-</code></pre>
-<pre><code class="language-r">(ob12 &lt;- ggplot() +
-  geom_sf(data = us_geo) + 
-  geom_sf(data = obama12transformed, color = &quot;dodgerblue4&quot;, alpha = 0.75, pch = 3) +
-  ggtitle(&quot;Obama 2012 Field Offices&quot;) +
-  theme_void())
-</code></pre>
-<img src="https://example.org/post/2024/10/19/blog-post-7/index_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-<pre><code class="language-r">(ro12 &lt;- ggplot() +
-  geom_sf(data = us_geo) + 
-  geom_sf(data = romney12transformed, color = &quot;firebrick&quot;, alpha = 0.75, pch = 3) +
-  ggtitle(&quot;Romney 2012 Field Offices&quot;) +
-  theme_void())
-</code></pre>
-<img src="https://example.org/post/2024/10/19/blog-post-7/index_files/figure-html/unnamed-chunk-4-2.png" width="672" />
-<pre><code class="language-r">(cl16 &lt;- ggplot() + 
-  geom_sf(data = us_geo) + 
-  geom_sf(data = clinton16transformed, color = &quot;dodgerblue4&quot;, alpha = 0.75, pch = 3) +
-  ggtitle(&quot;Clinton 2016 Field Offices&quot;) +
-  theme_void())
-</code></pre>
-<img src="https://example.org/post/2024/10/19/blog-post-7/index_files/figure-html/unnamed-chunk-4-3.png" width="672" />
-<pre><code class="language-r">(tr16 &lt;- ggplot() +
-  geom_sf(data = us_geo) + 
-  geom_sf(data = trump16transformed, color = &quot;firebrick&quot;, alpha = 0.75, pch = 3) +
-  ggtitle(&quot;Trump 2016 Field Offices&quot;) +
-  theme_void())
-</code></pre>
-<img src="https://example.org/post/2024/10/19/blog-post-7/index_files/figure-html/unnamed-chunk-4-4.png" width="672" />
-<pre><code class="language-r">ggarrange(ob12, ro12, cl16, tr16, nrow = 2, ncol = 2)
-</code></pre>
-<img src="https://example.org/post/2024/10/19/blog-post-7/index_files/figure-html/unnamed-chunk-4-5.png" width="672" />
-<pre><code class="language-r"># Clinton 2016 Field Offices - Obama 2008 Field Offices. 
-fo_add %&gt;%
-  subset(candidate %in% c(&quot;Clinton&quot;, &quot;Obama&quot;) &amp;
-           state %in% c(&quot;CO&quot;, &quot;FL&quot;, &quot;IA&quot;, &quot;MI&quot;, &quot;NV&quot;, &quot;NH&quot;, &quot;NC&quot;, &quot;OH&quot;, &quot;PA&quot;, &quot;VA&quot;, &quot;WI&quot;)) %&gt;%
-  group_by(state, candidate) %&gt;%
-  summarize(fo = n()) %&gt;%
-  spread(key = candidate, value = fo) %&gt;%
-  mutate(diff = Clinton - Obama) %&gt;%
-  select(state, diff) %&gt;%
-  ggplot(aes(y = diff, x = state, fill = (diff &gt; 0))) +
-  geom_bar(stat = &quot;identity&quot;) +
-  coord_flip() +
-  ylim(-50, 15) +
-  scale_y_continuous(breaks=seq(-50,10,10)) +
-  xlab(&quot;State&quot;) +
-  ylab(&quot;Clinton Field Offices - Obama '08 field offices&quot;)+
-  theme_minimal() +
-  theme(legend.position = &quot;none&quot;,
-        text = element_text(size = 15))
-</code></pre>
-<pre><code>## `summarise()` has grouped output by 'state'. You can override using the
-## `.groups` argument.
-## Scale for y is already present. Adding another scale for y, which will replace
-## the existing scale.
-</code></pre>
-<img src="https://example.org/post/2024/10/19/blog-post-7/index_files/figure-html/unnamed-chunk-4-6.png" width="672" />
-<pre><code>## 
-## \begin{table}[!htbp] \centering 
-##   \caption{Placement of Field Offices (2012)} 
-##   \label{} 
-## \scriptsize 
-## \begin{tabular}{@{\extracolsep{3pt}}lcc} 
-## \\[-1.8ex]\hline 
-## \hline \\[-1.8ex] 
-##  &amp; \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
-## \cline{2-3} 
-## \\[-1.8ex] &amp; obama12fo &amp; romney12fo \\ 
-## \\[-1.8ex] &amp; (1) &amp; (2)\\ 
-## \hline \\[-1.8ex] 
-##  romney12fo &amp; 2.546$^{***}$ (0.114) &amp;  \\ 
-##   obama12fo &amp;  &amp; 0.374$^{***}$ (0.020) \\ 
-##   swing &amp; 0.001 (0.055) &amp; $-$0.012 (0.011) \\ 
-##   core\_rep &amp; 0.007 (0.061) &amp;  \\ 
-##   core\_dem &amp;  &amp; 0.004 (0.027) \\ 
-##   battle &amp; 0.541$^{***}$ (0.096) &amp; 0.014 (0.042) \\ 
-##   medage08 &amp;  &amp;  \\ 
-##   romney12fo:swing &amp; $-$0.765$^{***}$ (0.116) &amp;  \\ 
-##   romney12fo:core\_rep &amp; $-$1.875$^{***}$ (0.131) &amp;  \\ 
-##   obama12fo:swing &amp;  &amp; $-$0.081$^{***}$ (0.020) \\ 
-##   obama12fo:core\_dem &amp;  &amp; $-$0.164$^{***}$ (0.023) \\ 
-##   Constant &amp; $-$0.340$^{*}$ (0.196) &amp; 0.001 (0.079) \\ 
-##  \hline \\[-1.8ex] 
-## \hline 
-## \hline \\[-1.8ex] 
-## \end{tabular} 
-## \end{table}
-</code></pre>
-<pre><code>## Warning in lm(romney12fo ~ obama12fo + swing + core_dem + swing:obama12fo + :
-## longer object length is not a multiple of shorter object length
-</code></pre>
+<p>Consider the average R-squared value across states, a respectable 0.647. This figure may not stir a crowd at a rally, but in the confines of a strategy room, it&rsquo;s a significant indicator, suggesting that our AR(1) model has a decent grasp on electoral pulses. The story varies dramatically from state to state. For instance, in Pennsylvania, the forecast tilts slightly Democratic, with a diff_support change around 0.430, hinting at a possible blue shift. In contrast, Georgia seems poised for a Republican swing, with the model predicting a change of about -1.195 in favor of the GOP.</p>
+<p>These forecasts serve as strategic markers, guiding campaign efforts on where to intensify engagement or scale back, reshaping the traditional ground war in American politics. However, it&rsquo;s crucial to remember that these predictions stem from historical voting patterns—a reminder that in the ever-shifting landscape of political campaigning, today’s strategies may require adjustments tomorrow. While our ARIMA model offers a glimpse into what might be, it is today’s actions that will ultimately shape the electoral map on election night. Overall, I can state a clear shift from the past two weeks in my model as in the previous it has predicted a win for the Republicans. However, once we shift our perspective towards the polls within each states it claims a win for the Democratic party.</p>
+<p><em>Conclusion:</em></p>
+<p>The ground war in political campaigns, characterized by the strategic deployment of field offices and direct voter interaction, continues to be a pivotal element of electoral strategy. However, its role is undoubtedly being reshaped by digital innovations. As we look towards future elections, the interplay between traditional methods and new technologies will likely redefine how campaigns are conducted and how effectively they can mobilize the electorate. Whether this shift will lead to a decrease in the importance of ground tactics remains to be seen, but for now, they remain a vital component of any comprehensive campaign strategy.</p>
 
 </main>
 

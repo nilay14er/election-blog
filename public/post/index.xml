@@ -6,14 +6,21 @@
     <description>Recent content in Posts on A minimal Hugo website</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Oct 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blog Post 8</title>
+      <link>https://example.org/post/2024/10/25/blog-post-8/</link>
+      <pubDate>Fri, 25 Oct 2024 00:00:00 +0000</pubDate>
+      <guid>https://example.org/post/2024/10/25/blog-post-8/</guid>
+      <description>&lt;pre&gt;&lt;code&gt;## Warning: package &#39;sf&#39; was built under R version 4.3.3&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;national_polls &amp;lt;- read.csv(&amp;quot;national_polls_1968_2024.csv&amp;quot;)&#xA;hurricanes &amp;lt;- read.csv(&amp;quot;hurricanes_1996_2016.csv&amp;quot;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;&lt;em&gt;Shocks, Scandals, and Storms – How Unpredictable Events Influence Presidential Elections&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor &lt;a href=&#34;https://www.ryandenos.com&#34;&gt;Ryan Enos&lt;/a&gt;. Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election.&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Blog Post 7</title>
       <link>https://example.org/post/2024/10/19/blog-post-7/</link>
       <pubDate>Sat, 19 Oct 2024 00:00:00 +0000</pubDate>
       <guid>https://example.org/post/2024/10/19/blog-post-7/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;## Warning: package &#39;sf&#39; was built under R version 4.3.3&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(ggplot2)&#xA;library(sf)&#xA;library(readr)&#xA;library(maps)&#xA;library(ggspatial)&#xA;&#xA;# Read field office data (adjust file path as necessary)&#xA;d_field_offices &amp;lt;- read_csv(&amp;quot;fieldoffice_2012-2016_byaddress.csv&amp;quot;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code&gt;## Rows: 1777 Columns: 8&#xA;## ── Column specification ────────────────────────────────────────────────────────&#xA;## Delimiter: &amp;quot;,&amp;quot;&#xA;## chr (5): party, candidate, state, city, full_address&#xA;## dbl (3): year, latitude, longitude&#xA;## &#xA;## ℹ Use `spec()` to retrieve the full column specification for this data.&#xA;## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.&#xA;&lt;/code&gt;&lt;/pr</description>
+      <description>&lt;pre&gt;&lt;code&gt;## Warning: package &#39;sf&#39; was built under R version 4.3.3&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;&lt;em&gt;The Role of Ground War Tactics in Election Campaigns&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor &lt;a href=&#34;https://www.ryandenos.com&#34;&gt;Ryan Enos&lt;/a&gt;. Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Introduction:&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;In the high-stakes realm of political elections, the term &amp;ldquo;ground war&amp;rdquo; refers to the strategic placement of campaign field offices and direct voter contact efforts. These grassroots tactics are crucial for mobilizing supporters and can significantly impact the outcome of an election. This blog post examines the importance of ground war strategies in political campaigns, supported by recent data and historical trends. We&amp;rsquo;ll also consider how these tactics might influence the upcoming elections and why their impact could be mitigated by modern campaign developments.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Blog Post 6</title>

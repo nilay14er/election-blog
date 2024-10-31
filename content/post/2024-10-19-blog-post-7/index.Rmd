@@ -11,8 +11,6 @@ tags: []
 slug: "blog-post-7"
 ---
 
-
-
 ```{r, echo=FALSE, message=FALSE}
 library(geofacet)
 library(ggpubr)
@@ -86,10 +84,10 @@ fo_2012<- read_csv("fieldoffice_2012_bycounty.csv")
 
 fo_add <- read_csv("fieldoffice_2012-2016_byaddress.csv")
 
-combined_plot <- ggarrange(ob12, ro12, cl16, tr16, nrow = 2, ncol = 2)
-
-# Print the combined plot
-print(combined_plot)
+# combined_plot <- ggarrange(ob12, ro12, cl16, tr16, nrow = 2, ncol = 2)
+# 
+# # Print the combined plot
+# print(combined_plot)
 
 # Clinton 2016 Field Offices - Obama 2008 Field Offices. 
 fo_add %>%
@@ -224,17 +222,14 @@ In the tactical realm of U.S. presidential elections, the strategic placement of
 These coefficients not only quantify the strategic push in key electoral zones but also reveal the dynamic interplay of campaign strategies where placement was not random but highly calculated. Romney’s additional adjustment based on swing states, with a negative coefficient of -0.765 for his interaction with swing states, shows a strategic withdrawal or reallocation of resources in less promising areas, suggesting a nuanced approach to resource management. This data-driven look into campaign strategies provides a crucial understanding of how field operations are deployed to maximize electoral influence, illustrating the calculative nature of political campaigns and their adaptability to on-ground realities.
 
 
-```{r}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # Mapping campaign events. 
-d_campaign_events <- d_campaign_events |> 
-  geocode(city = city, state = state, method = 'osm', lat = latitude , long = longitude)
-
 d_campaign_events <- read_csv("campaign_events_geocoded.csv")
 d_campaign_events$party[d_campaign_events$candidate %in% c("Trump / Pence", "Trump", "Pence", "Trump/Pence", "Vance")] <- "REP"
 d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Biden", "Harris", "Biden/Harris", "Walz", "Kaine", "Clinton", "Clinton / Kaine")] <- "DEM"
 
-us_geo <- states(cb = TRUE) |> 
-  shift_geometry() |> 
+us_geo <- states(cb = TRUE) |>
+  shift_geometry() |>
   filter(STUSPS %in% unique(fo_add$state))
 
 d_ev_transformed <- st_as_sf(d_campaign_events |> drop_na(), coords = c("longitude", "latitude"), crs = 4326) |>
@@ -273,10 +268,30 @@ I delve into the specifics state by state, requiring a minimum of three data poi
 
 
 
-```{r, echo=FALSE, message=FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
 library(forecast)
+library(dplyr)
 
+state_polls <- read.csv("state_polls_1968-2024.csv")
+combined_data <- state_polls %>% 
+  filter(year == 2024)
+
+# Remove or comment out the next line to avoid printing the number of states
+# print(length(unique(combined_data$state)))
+
+combined_data_aggregated <- combined_data %>%
+  group_by(state, weeks_left, party) %>%
+  summarize(poll_support = mean(poll_support, na.rm = TRUE), .groups = 'drop')
+
+combined_data_wide <- combined_data_aggregated %>%
+  pivot_wider(names_from = party, values_from = poll_support) %>%
+  mutate(diff_support = DEM - REP)
+
+combined_data_wide$`NA` <- NULL
+combined_data_wide <- na.omit(combined_data_wide)
+
+states_names <- unique(combined_data_wide$state)
 
 # extract data for a specific state
 extract_state_data <- function(data, state_name) {
@@ -294,7 +309,7 @@ predict_ar3 <- function(data) {
   return(list(mean = forecast$mean, rsquared = rsquared))
 }
 
-# forecasts and collect R-squared values
+#forecasts 
 forecasts <- list()
 r_squared_values <- numeric()
 
@@ -309,7 +324,7 @@ for (state in states_names) {
   }
 }
 
-# filter out NA values in R-squared values
+#filter out NA 
 r_squared_values <- r_squared_values[!is.na(r_squared_values)]
 average_r_squared <- mean(r_squared_values)
 

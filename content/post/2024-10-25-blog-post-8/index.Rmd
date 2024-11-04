@@ -32,7 +32,7 @@ library(viridis)
 ```
 
 ```{r}
-national_polls <- read.csv("national_polls_1968_2024.csv")
+national_polls <- read.csv("national_polls_1968-2024.csv")
 hurricanes <- read.csv("hurricanes_1996_2016.csv")
 
 ```
@@ -128,7 +128,7 @@ library(tidyr)
 library(lubridate)
 state_popvote <- read.csv("state_popvote_1948_2020.csv")
 state_polls <- read.csv("state_polls_1968-2024.csv")
-national_polls <- read.csv("national_polls_1968_2024.csv")
+national_polls <- read.csv("national_polls_1968-2024.csv")
 ec_data <- read.csv("fred_econ.csv")
 
 

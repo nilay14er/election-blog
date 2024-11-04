@@ -6,14 +6,21 @@
     <description>Recent content in Posts on A minimal Hugo website</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 25 Oct 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 03 Nov 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Final Prediction</title>
+      <link>https://example.org/post/2024/11/03/final-prediction/</link>
+      <pubDate>Sun, 03 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://example.org/post/2024/11/03/final-prediction/</guid>
+      <description>&lt;p&gt;&lt;em&gt;Final Prediction for the Presidential Election 2024&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor &lt;a href=&#34;https://www.ryandenos.com&#34;&gt;Ryan Enos&lt;/a&gt;. Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;Forecasting the 2024 U.S. Presidential Election: Electoral College and Popular Vote Analysis&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;For this analysis, I combined two models to predict the outcome of the 2024 Presidential Election. The Linear Regression Model estimates each state’s Electoral College vote share, using a range of demographic and polling predictors to forecast whether a state will lean Democratic or Republican. The ARIMA(3) Model, on the other hand, forecasts popular vote trends over time, tracking weekly shifts in public sentiment on a state-by-state basis. By employing these complementary approaches, I created a forecast that accounts for both the static electoral structure and the evolving trends in voter preferences.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Blog Post 8</title>
       <link>https://example.org/post/2024/10/25/blog-post-8/</link>
       <pubDate>Fri, 25 Oct 2024 00:00:00 +0000</pubDate>
       <guid>https://example.org/post/2024/10/25/blog-post-8/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;## Warning: package &#39;sf&#39; was built under R version 4.3.3&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;national_polls &amp;lt;- read.csv(&amp;quot;national_polls_1968_2024.csv&amp;quot;)&#xA;hurricanes &amp;lt;- read.csv(&amp;quot;hurricanes_1996_2016.csv&amp;quot;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;&lt;em&gt;Shocks, Scandals, and Storms – How Unpredictable Events Influence Presidential Elections&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor &lt;a href=&#34;https://www.ryandenos.com&#34;&gt;Ryan Enos&lt;/a&gt;. Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election.&lt;/em&gt;&lt;/p&gt;</description>
+      <description>&lt;pre&gt;&lt;code&gt;## Warning: package &#39;sf&#39; was built under R version 4.3.3&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;national_polls &amp;lt;- read.csv(&amp;quot;national_polls_1968-2024.csv&amp;quot;)&#xA;hurricanes &amp;lt;- read.csv(&amp;quot;hurricanes_1996_2016.csv&amp;quot;)&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;&lt;em&gt;Shocks, Scandals, and Storms – How Unpredictable Events Influence Presidential Elections&lt;/em&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor &lt;a href=&#34;https://www.ryandenos.com&#34;&gt;Ryan Enos&lt;/a&gt;. Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election.&lt;/em&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Blog Post 7</title>

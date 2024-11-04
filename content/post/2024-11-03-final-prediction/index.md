@@ -134,54 +134,6 @@ When comparing turnout trends across models, we can observe that the ARIMA Model
  
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-3.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-4.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-5.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-6.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-7.png" width="672" />
 
-```
-## $`North Carolina`
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-8.png" width="672" />
-
-```
-## 
-## $Georgia
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-9.png" width="672" />
-
-```
-## 
-## $Pennsylvania
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-10.png" width="672" />
-
-```
-## 
-## $Wisconsin
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-11.png" width="672" />
-
-```
-## 
-## $Michigan
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-12.png" width="672" />
-
-```
-## 
-## $Arizona
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-13.png" width="672" />
-
-```
-## 
-## $Nevada
-```
-
-<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-4-14.png" width="672" />
-
 
 *Graphical Representation of Predictions:*
 

@@ -309,6 +309,7 @@ When comparing turnout trends across models, we can observe that the ARIMA Model
  
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(ggplot2)
+
 states_names <- unique(c("Blank", "North Carolina", "Georgia", "Pennsylvania", "Wisconsin", "Michigan", "Arizona", "Nevada"))
 
 plots <- list() 
@@ -352,6 +353,7 @@ for (state in states_names) {
       ggtitle(paste("Time Evolution and Forecast for", state)) +
       geom_hline(yintercept = 0, linetype = "dashed", color = "gray")
     
+    print(p)
    
     if (!state %in% names(plots)) {
       plots[[state]] <- p
@@ -361,7 +363,6 @@ for (state in states_names) {
   }
 }
 
-lapply(plots, print)
 
 
 ```

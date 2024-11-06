@@ -144,7 +144,7 @@ In contrast, my ARIMA Model offer a more detailed view of popular vote trends in
 
 Compared to my Linear Regression, the ARIMA shows a win for Harris in swing states such as Nevada, Wisconsin, and Michigan. These battleground states show a likelihood for Trump to win in my regression model, which is interesting to observe, as these states will determine the presidency. However, it’s important to note that my ARIMA model purely predicts the popularity of each candidate in those states, whereas my regression forecasts the electoral college vote. Pennsylvania, in particular, may be the state that decides if we’ll see the first female president in the United States or another term for Donald Trump. 
 
-<img src="ElectoralCollege.png" width="967" />
+<img src="ElectoralCollege.png" width="938" />
 (Image created by ABCNews & 538 Interactive Map)
 
 

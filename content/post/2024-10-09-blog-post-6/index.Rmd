@@ -195,6 +195,8 @@ ggplot(national_data, aes(x = weeks_left, y = mean_diff)) +
   theme(plot.title = element_text(hjust = 0.5))
 
 
+
+
 ```
 
 As the map indicates, we see variances across states, with certain regions leaning heavily towards one party. However, battleground states show narrower margins, reflecting their historical significance in determining election outcomes. The model’s results suggest that, while some states are predictably aligned, others could swing with last-minute changes in public opinion. We can observe that weeks further away from the election Harris had a strong hold on the polls, but looking at the past three weeks in polls the results show that the closer we get to election day it's more likely for Trump to win.

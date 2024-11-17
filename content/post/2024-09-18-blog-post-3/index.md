@@ -17,17 +17,21 @@ slug: "blog-post-3"
 
 
 
-*North Carolina Polling Analysis: Historical Trends, Economic Impacts, and Key Events*
+# North Carolina Polling Analysis: Historical Trends, Economic Impacts, and Key Events
 
-*This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com). Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election.*
+_This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com). Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election._
 
-*Introduction:*
+
+
+### Introduction:
 
 North Carolina has consistently been a pivotal battleground state in recent elections. Analyzing its voting patterns requires not only an understanding of historical polling data but also insight into how economic and political events shape public opinion. In this blog post, I'll explore polling data from North Carolina between 2000 and 2024, with special attention to how factors like GDP growth, unemployment rates, and key political events influence polling trends. By visualizing these relationships, we aim to clarify the role that both historical trends and economic performance play in shaping voter preferences.
 
 Let's dive into the analysis.
 
-*Smoothed Polling Averages and Key Events in North Carolina (2020 and 2016):*
+
+
+### Smoothed Polling Averages and Key Events in North Carolina (2020 and 2016):
 
 To give a clearer picture of overall polling trends and how significant events influence these trends, we've smoothed the polling data and marked key moments, such as national conventions and presidential debates, that could have impacted voter sentiment.
 
@@ -74,7 +78,7 @@ In 2016, the polling averages appear to be relatively stable for most of the yea
 
 Therefore, it shows a certain phenomenon in which pre-election polls can suppress turnout. [Hillary Clinton was clearly favored in the polls of 2016](https://www.pewresearch.org/politics/2018/08/09/an-examination-of-the-2016-electorate-based-on-validated-voters/) but she still lost but was it due to Trump being a better candidate or for simply being a men? No, the average voter gets lazy when they see a forecast of polls every week on the news. They believe that the game is over because it has already been predicted.
 
-*North Carolina Polling vs. Quarterly GDP Growth (2000-2024):*
+### North Carolina Polling vs. Quarterly GDP Growth (2000-2024):
 
 Next, I want to examine how economic conditions, specifically quarterly GDP growth, impact polling support. As many voters tend to believe that they purely vote due to the economy and usually it follows with that the [Republican policy has a better impact on the economy](https://www.ipsos.com/en-us/one-year-election-day-republicans-perceived-better-handling-economy). Using a simplified color-coded graph, I will highlight how GDP growth trends might have influenced voter preferences in recent election cycles.
 
@@ -95,7 +99,7 @@ What stands out is the clear visual trend suggesting that during the years when 
 
 Conversely, during years when Democratic presidents were in office, such as in 2012 and 2016 under President Obama, the economy showed more stable or positive growth, and polling support for the Democratic Party generally remained strong. This graph may indicate that Republican presidencies, at least in the time frame shown, align with periods of economic downturns or slower growth, which can significantly affect their polling outcomes in elections. As we look to 2024, the economic data could play a crucial role in shaping polling trends, just as it has in the past.
 
-*North Carolina Polling vs. Unemployment Rate (2000-2024):*
+### North Carolina Polling vs. Unemployment Rate (2000-2024):
 
 Finally, we explore how unemployment rates impact polling support, using a color gradient to show the severity of unemployment rates and their influence on voter preferences. Unemployment, permanently has the same issue with being perceived as "it's only linked to the economy". Here, voters have the tendency to reason with changing the incumbent when there is rise in unemployment, which is common believe but let's see what the graph shows.
 
@@ -107,7 +111,7 @@ For example, years with higher unemployment rates (in red) often show a negative
 
 In fact, we observe that the unemployment rate was better with a democratic party leader except for 2012 with Obama's first presidency. However, he did win in the same year and the only time their was a change in party due to a high rate of unemployment was during Trump presidency in 2020, in which he lost the election. This graph clearly explains that voter behavior isn't correlated to uneployment rate but more so with social events that move the country, one must consider we will always observe outliers within polling data from past election years.
 
-*Conclusion:*
+### Conclusion:
 
 From the analysis of North Carolina's historical polling trends and the relationships between economic indicators, such as GDP growth and unemployment, we can draw several important insights that may help forecast the 2024 election outcomes.
 

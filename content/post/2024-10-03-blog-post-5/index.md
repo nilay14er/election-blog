@@ -9,13 +9,13 @@ slug: "blog-post-5"
 ---
 
 
-*Demographic Impacts on the 2016 U.S. Election and Forecasting the 2024 Outcomes*
+# Demographic Impacts on the 2016 U.S. Election and Forecasting the 2024 Outcomes
 
 
 _This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com). Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election._
 
 
-*Introduction:*
+### Introduction:
 
 
 In the world of political campaigning, utilizing demographic insights allows campaigns to pinpoint where and how to engage specific communities, adapting to trends like shifts in the racial composition of suburbs or changes in economic status. This strategic application of demographic data not only boosts voter turnout by ensuring relevance but also deepens the electorate's connection with candidates, showcasing the profound impact of demographics in shaping political landscapes.
@@ -25,7 +25,7 @@ By harnessing this detailed understanding of the electorate, political campaigns
 
 
 
-*The 2016 Election: A Colorful Analysis of Electoral Votes*
+### The 2016 Election: A Colorful Analysis of Electoral Votes
 
 
 The 2016 U.S. presidential election was a pivotal moment, reflecting profound demographic and political shifts across the country. It was big shock when the [Hillary Clinton lost the election](https://www.scientificamerican.com/article/why-polls-were-mostly-wrong/) against Donald Trump. The most interesting part of the polls was that it was mainly focusing on the votes already done via mail. No one expected that Trump's partisans would show up on the day of election and vote in favor. Especially, since Clinton build a certain narrative trying to prove the voters that Trump was the "bad guy", which later turned out to be her downfall. As it was not evident yet, that demographics can easily change due to certain values a party might be associated with, as well as, the difference in persona Trump brought with him in 2015. 
@@ -40,7 +40,7 @@ In this visual depiction, states like California, Texas, and Florida stand out w
 
 
 
-*Demographic Shifts in Battleground States:*
+### Demographic Shifts in Battleground States:
 
 
 Florida and Georgia are states experiencing significant demographic shifts, particularly with growing Hispanic and Black communities. These changes have the potential to alter political dynamics, as these groups traditionally tend to vote Democratic. In Florida, the increase in diverse populations is not just limited to one or two cities but is spread across the state, including significant increases in areas like Miami-Dade and Orange counties. These areas are known for their higher Democratic turnout, which could lead to stronger performances for the Democratic Party in statewide elections.
@@ -51,15 +51,11 @@ However, there is this certain phenomenon that can be observed also in areas wit
 
 
 
-*Transitioning to 2024: Predictive Modeling*
+### Transitioning to 2024: Predictive Modeling
 
 
 For the upcoming 2024 election, advanced statistical models harness past polling data and electoral college trends to forecast outcomes. By merging state-level poll data with electoral vote counts and applying time series analysis, we can predict the shifting political landscape. The 2016 demographics highlighted the critical role of suburban voters and minority groups, whose growing electoral influence could reshape future elections.
 
-
-```
-## Warning: package 'forecast' was built under R version 4.3.3
-```
 
 ```
 ## Series: national_data$mean_diff 
@@ -99,7 +95,7 @@ Looking deeper into the forecast, the model specifically predicts that the Repub
 
 
 
-*Conclusion: Demographics and Campaign Strategy*
+### Conclusion: Demographics and Campaign Strategy
 
 
 This predicted outcome demonstrate the power of demographic trends in shaping electoral results. As the U.S. becomes more diverse, particularly in states like Georgia, Texas, and Florida, both major parties will need to adapt their strategies to appeal to shifting populations.

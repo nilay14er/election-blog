@@ -40,7 +40,7 @@ In the plot below, the relationship between third-quarter GDP growth and the inc
 
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message = FALSE}
 
 
 
@@ -77,7 +77,7 @@ Unemployment is crucial indicator of economic performance and voter sentiment, r
 Below is a scatter plot depicting the relationship between *unemployment* and the *incumbent party’s popular vote* share:
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE}
 
 
 cleaned_q3_filtered <- cleaned_q3[cleaned_q3$year != 2020, ]

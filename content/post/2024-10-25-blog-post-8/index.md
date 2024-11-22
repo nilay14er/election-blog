@@ -14,13 +14,9 @@ tags: []
 ```
 
 
-```r
-national_polls <- read.csv("national_polls_1968-2024.csv")
-hurricanes <- read.csv("hurricanes_1996_2016.csv")
-```
 
 
-*Shocks, Scandals, and Storms – How Unpredictable Events Influence Presidential Elections*
+# Shocks, Scandals, and Storms – How Unpredictable Events Influence Presidential Elections
 
 
 _This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com). Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election._
@@ -28,13 +24,13 @@ _This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a 
 
 
 
-*Introduction:*
+### Introduction:
 
 In the high-stakes world of U.S. presidential elections, every detail can seem monumental. Shocks, scandals, and unexpected events can emerge, capturing the public’s attention and potentially altering the trajectory of the election. From personal controversies of candidates to natural disasters, these events test the resilience and adaptability of both the candidates and voters. Some say these surprises don’t make a significant impact, while others argue that they’re often the tipping point that swings votes. This post dives into these moments and examines how shocks, particularly in the form of natural disasters like hurricanes, have affected voting patterns in critical swing states like North Carolina.
 
 
 
-*The Impact of Scandals on Candidate Perception:*
+### The Impact of Scandals on Candidate Perception:
 
 Scandals have always been a wildcard in U.S. elections. While some controversies, like those involving a candidate’s personal or financial life, may make headlines, their effect on voting behavior varies. For instance, some voters may feel disillusioned and withdraw support, while others might dismiss the controversy, rallying around their candidate with renewed loyalty. Research shows that the impact of a scandal often depends on the existing polarization of voters; supporters might stay firm, while undecided voters could be swayed or deterred.
 However, it’s not just about the scandal itself. How a candidate handles and addresses the issue can often play a bigger role in shaping public perception. This is particularly true for swing states like North Carolina, where voters may not have as strong of a party allegiance and could be more susceptible to a candidate’s behavior under pressure.
@@ -43,41 +39,11 @@ However, it’s not just about the scandal itself. How a candidate handles and a
 
 
 
-*Natural Disasters and Election Shifts in North Carolina:*
+### Natural Disasters and Election Shifts in North Carolina:
 
 North Carolina is no stranger to hurricanes, with its geographic position making it vulnerable to significant storms that can disrupt lives and economies. When natural disasters hit, they often become political issues, as candidates are expected to address the crisis promptly and propose effective solutions. Public perception of a candidate’s response can be influenced by how quickly relief comes and how well-prepared the state appears.
 The graph below illustrates the impact of hurricanes on North Carolina from 1996 to 2016. The red line represents the financial damage in millions of USD, while the bars reflect the total deaths attributed to these events over the years.
 
-
-```r
-library(ggplot2)
-library(dplyr)
-nc_hurricanes <- hurricanes %>%
-  filter(STATE == "NORTH CAROLINA" & EVENT_TYPE == "Hurricane (Typhoon)")
-
-nc_hurricanes$DAMAGE_PROPERTY <- as.numeric(gsub("[^0-9]", "", nc_hurricanes$DAMAGE_PROPERTY))
-
-nc_summary <- nc_hurricanes %>%
-  group_by(YEAR) %>%
-  summarize(
-    total_injuries = sum(INJURIES_DIRECT, na.rm = TRUE) + sum(INJURIES_INDIRECT, na.rm = TRUE),
-    total_deaths = sum(DEATHS_DIRECT, na.rm = TRUE) + sum(DEATHS_INDIRECT, na.rm = TRUE),
-    total_damage = sum(DAMAGE_PROPERTY, na.rm = TRUE)
-  )
-
-ggplot(nc_summary, aes(x = YEAR)) +
-  geom_bar(aes(y = total_injuries), stat = "identity", fill = "lightblue", alpha = 0.7) +
-  geom_line(aes(y = total_deaths * 10), color = "firebrick", size = 1) + 
-  geom_point(aes(y = total_deaths * 10), color = "red", size = 2) +
-  geom_line(aes(y = total_damage / 1000000), color = "darkgreen", size = 1) + 
-  labs(
-    title = "Impact of Hurricanes on North Carolina (1996-2016)",
-    x = "Year",
-    y = "Count / Damage (Millions USD)"
-  ) +
-  scale_y_continuous(sec.axis = sec_axis(~./10, name = "Total Deaths")) +
-  theme_minimal()
-```
 
 ```
 ## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
@@ -94,7 +60,7 @@ As we can see, significant hurricane impacts are concentrated in a few specific 
 
 
 
-*How Hurricanes Influence Voting Behavior:*
+### How Hurricanes Influence Voting Behavior:
 
 Natural disasters like hurricanes can have a profound effect on voter priorities. For example, after a significant hurricane, voters may lean towards candidates who propose strong disaster response measures or who emphasize climate action, especially if the response to the previous hurricane was viewed as inadequate. In North Carolina, hurricane seasons that brought considerable devastation have, at times, sparked discussions on climate policy and disaster management, potentially swaying voters toward candidates who offer more robust plans.
 In the context of recent elections, candidates focusing on disaster relief efforts, infrastructure resilience, and community support tend to resonate more with the electorate in regions frequently impacted by hurricanes. North Carolina, being a pivotal swing state, could see shifts in voter behavior based on how well candidates address these pressing issues. In this way, the impact of hurricanes does not just stay in the realm of environmental or economic damage; it spills over into the political landscape, shaping voter opinions and influencing the broader discourse in an election year.
@@ -105,83 +71,13 @@ Ultimately, both scandals and disasters underscore the unpredictability of presi
 
 
 
-*Overview on Prediction Model:*
+### Overview on Prediction Model:
 
 In the past few weeks, I've been focused on building an ARIMA(3) model to predict national and state poll trends. The ARIMA model, with its ability to capture the autoregressive and moving average components of time series data, provides a dynamic approach to forecasting poll support based on past values and patterns over time. This approach is particularly valuable because polls tend to exhibit seasonal trends and lags that can be captured by the ARIMA model’s lag structure, especially for short-term predictions. By analyzing how previous poll results predict future outcomes, the ARIMA model offers insights into the likely direction of support for the Democratic and Republican parties at both national and state levels.
 
 However, I also wanted to explore a linear regression model as a complementary approach to assess different factors that may drive poll support, beyond just time-series patterns. The linear regression model incorporates variables like past popular vote data, national poll differences, and economic indicators (e.g., GDP growth), allowing me to analyze the influence of these external factors on state-level support for the Democratic party. By comparing the accuracy of both models, I can determine whether a data-driven, time-based prediction (ARIMA) outperforms a model that leverages broader contextual factors (linear regression), or vice versa. This comparison not only provides insights into which approach is more effective for predicting poll support but also sheds light on the importance of temporal versus contextual factors in political forecasting.
 
 
-
-```r
-library(dplyr)
-library(tidyr)
-library(lubridate)
-state_popvote <- read.csv("state_popvote_1948_2020.csv")
-state_polls <- read.csv("state_polls_1968-2024.csv")
-national_polls <- read.csv("national_polls_1968-2024.csv")
-ec_data <- read.csv("fred_econ.csv")
-
-
-dem_national_polls <- national_polls %>%
-  filter(year >= 2020, party == "DEM")
-
-rep_national_polls <- national_polls %>%
-  filter(year >= 2016, party == "REP")
-
-poll_support_diff <- dem_national_polls %>%
-  #join with rep_national_polls by the common columns (except poll_support)
-  inner_join(rep_national_polls, by = c("poll_date")) %>%
-  #calculate the difference in poll_support (DEM - REP)
-  mutate(poll_support_diff = poll_support.x - poll_support.y)
-
-poll_support_diff <- poll_support_diff %>%
-  select(poll_date, poll_support_diff)
-
-
-ec_data <- ec_data %>%
-  filter(year %in% c(2016, 2020, 2024)) %>%
-  select(year, quarter, GDP, GDP_growth_quarterly)
-
-popvote2016 <- state_popvote %>%
-  filter(year == 2016) %>%
-  select(year, state, D_pv, R_pv)
-
-popvote2020 <- state_popvote %>%
-  filter(year == 2020) %>%
-  select(year, state, D_pv, R_pv)
-
-dem_state_polls <- state_polls %>%
-  filter(year >= 2016, party == "DEM") %>%
-  select(year, state, poll_date, poll_support)
-
-
-
-#merge popvote2016 and popvote2020
-popvote_combined <- popvote2016 %>%
-  inner_join(popvote2020, by = "state", suffix = c("_2016", "_2020"))
-
-
-#extracting the quarter data for each poll date
-poll_support_diff <- poll_support_diff %>%
-  mutate(quarter = quarter(poll_date)) %>%
-  mutate(year = year(poll_date))
-
-poll_support_gdp <- poll_support_diff %>%
-  inner_join(ec_data, by = c("year", "quarter")) %>%
-  select(poll_date, poll_support_diff, GDP_growth_quarterly)
-
-
-#merge dem_state_polls with popvote_combined and poll_support_gdp
-dem_polls_combined <- dem_state_polls %>%
-  left_join(popvote_combined, by = "state") %>%
-  left_join(poll_support_gdp, by = c("poll_date")) 
-
-#linear regression with Democratic state-level support at time t and state z
-model <- lm(poll_support ~ D_pv_2016 + D_pv_2020 + poll_support_diff + GDP_growth_quarterly, data = dem_polls_combined)
-
-summary(model)
-```
 
 ```
 ## 

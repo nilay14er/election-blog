@@ -12,9 +12,6 @@ slug: "blog-post-7"
 ---
 
 
-```
-## Warning: package 'sf' was built under R version 4.3.3
-```
 
 
 
@@ -22,7 +19,7 @@ slug: "blog-post-7"
 
 
 
-*The Role of Ground War Tactics in Election Campaigns*
+# The Role of Ground War Tactics in Election Campaigns
 
 
 
@@ -32,14 +29,14 @@ _This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a 
 
 
 
-*Introduction:*
+### Introduction:
 
 In the high-stakes realm of political elections, the term "ground war" refers to the strategic placement of campaign field offices and direct voter contact efforts. These grassroots tactics are crucial for mobilizing supporters and can significantly impact the outcome of an election. This blog post examines the importance of ground war strategies in political campaigns, supported by recent data and historical trends. We'll also consider how these tactics might influence the upcoming elections and why their impact could be mitigated by modern campaign developments.
 
 
 
 
-*Ground War Dynamics:*
+### Ground War Dynamics:
 
 Field offices serve as local hubs for campaign operations, providing a base for phone banking, canvassing, and volunteer activities. Their distribution across states can offer insights into a campaign’s focus areas and predicted voter turnout. Historically, campaigns like those of Obama in 2012 and Trump in 2016 have shown a broad distribution of field offices, reflecting a strategy to engage voters across diverse geographic areas.
 
@@ -62,7 +59,7 @@ In contrast, Donald Trump's campaign appeared to have fewer field offices, as se
 
 
 
-*Implications and Effectiveness:*
+### Implications and Effectiveness:
 
 
 The presence of more field offices generally implies a greater capacity for voter engagement activities directly at the grassroots level. Campaigns with extensive field office networks are typically better positioned to implement ground activities such as canvassing, local events, and direct voter interaction, which are critical for boosting voter turnout and swaying undecided voters.
@@ -109,36 +106,6 @@ However, as seen in the comparison of different campaigns, more field offices do
 ```
 
 
-\begin{table}[!htbp] \centering 
-  \caption{Placement of Field Offices (2012)} 
-  \label{} 
-\scriptsize 
-\begin{tabular}{@{\extracolsep{3pt}}lcc} 
-\\[-1.8ex]\hline 
-\hline \\[-1.8ex] 
- & \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
-\cline{2-3} 
-\\[-1.8ex] & obama12fo & romney12fo \\ 
-\\[-1.8ex] & (1) & (2)\\ 
-\hline \\[-1.8ex] 
- romney12fo & 2.546$^{***}$ (0.114) &  \\ 
-  obama12fo &  & 0.374$^{***}$ (0.020) \\ 
-  swing & 0.001 (0.055) & $-$0.012 (0.011) \\ 
-  core\_rep & 0.007 (0.061) &  \\ 
-  core\_dem &  & 0.004 (0.027) \\ 
-  battle & 0.541$^{***}$ (0.096) & 0.014 (0.042) \\ 
-  medage08 &  &  \\ 
-  romney12fo:swing & $-$0.765$^{***}$ (0.116) &  \\ 
-  romney12fo:core\_rep & $-$1.875$^{***}$ (0.131) &  \\ 
-  obama12fo:swing &  & $-$0.081$^{***}$ (0.020) \\ 
-  obama12fo:core\_dem &  & $-$0.164$^{***}$ (0.023) \\ 
-  Constant & $-$0.340$^{*}$ (0.196) & 0.001 (0.079) \\ 
- \hline \\[-1.8ex] 
-\hline 
-\hline \\[-1.8ex] 
-\end{tabular} 
-\end{table} 
-
 
 
 In the tactical realm of U.S. presidential elections, the strategic placement of field offices underscores the intensity of the "ground war." The 2012 campaign between Barack Obama and Mitt Romney is a prime example, with regression analysis revealing significant numbers that underscore strategic movements. For instance, Obama's field office presence in battleground states was a strong tactic, evidenced by a coefficient of 0.541, highlighting aggressive efforts to mobilize support in pivotal areas. Romney's strategy, in contrast, was more reactive; his field office deployment was significantly influenced by Obama’s placements, shown by a coefficient of 2.546 when responding to Obama's field offices, indicating a direct counter-effort to match Democratic presence.
@@ -162,11 +129,11 @@ These coefficients not only quantify the strategic push in key electoral zones b
   |                                                                            
   |===                                                                   |   5%
   |                                                                            
-  |=====                                                                 |   6%
+  |====                                                                  |   5%
   |                                                                            
-  |=====                                                                 |   8%
+  |====                                                                  |   6%
   |                                                                            
-  |======                                                                |   8%
+  |=====                                                                 |   7%
   |                                                                            
   |======                                                                |   9%
   |                                                                            
@@ -174,17 +141,15 @@ These coefficients not only quantify the strategic push in key electoral zones b
   |                                                                            
   |=======                                                               |  10%
   |                                                                            
+  |========                                                              |  11%
+  |                                                                            
   |========                                                              |  12%
   |                                                                            
   |=========                                                             |  13%
   |                                                                            
-  |==========                                                            |  15%
-  |                                                                            
-  |===========                                                           |  15%
+  |==========                                                            |  14%
   |                                                                            
   |===========                                                           |  16%
-  |                                                                            
-  |============                                                          |  17%
   |                                                                            
   |============                                                          |  18%
   |                                                                            
@@ -192,15 +157,15 @@ These coefficients not only quantify the strategic push in key electoral zones b
   |                                                                            
   |==============                                                        |  20%
   |                                                                            
-  |==============                                                        |  21%
-  |                                                                            
   |===============                                                       |  21%
   |                                                                            
   |===============                                                       |  22%
   |                                                                            
+  |================                                                      |  23%
+  |                                                                            
   |================                                                      |  24%
   |                                                                            
-  |=================                                                     |  25%
+  |==================                                                    |  25%
   |                                                                            
   |==================                                                    |  26%
   |                                                                            
@@ -210,21 +175,23 @@ These coefficients not only quantify the strategic push in key electoral zones b
   |                                                                            
   |====================                                                  |  29%
   |                                                                            
+  |=====================                                                 |  29%
+  |                                                                            
   |=====================                                                 |  30%
   |                                                                            
-  |======================                                                |  32%
+  |======================                                                |  31%
   |                                                                            
   |=======================                                               |  32%
   |                                                                            
   |=======================                                               |  33%
   |                                                                            
+  |========================                                              |  34%
+  |                                                                            
   |========================                                              |  35%
   |                                                                            
   |=========================                                             |  36%
   |                                                                            
-  |==========================                                            |  37%
-  |                                                                            
-  |===========================                                           |  38%
+  |==========================                                            |  38%
   |                                                                            
   |===========================                                           |  39%
   |                                                                            
@@ -232,21 +199,17 @@ These coefficients not only quantify the strategic push in key electoral zones b
   |                                                                            
   |=============================                                         |  41%
   |                                                                            
-  |=============================                                         |  42%
+  |==============================                                        |  42%
   |                                                                            
   |==============================                                        |  43%
   |                                                                            
-  |===============================                                       |  44%
+  |===============================                                       |  45%
   |                                                                            
   |================================                                      |  45%
-  |                                                                            
-  |================================                                      |  46%
   |                                                                            
   |=================================                                     |  47%
   |                                                                            
   |=================================                                     |  48%
-  |                                                                            
-  |==================================                                    |  48%
   |                                                                            
   |==================================                                    |  49%
   |                                                                            
@@ -254,13 +217,19 @@ These coefficients not only quantify the strategic push in key electoral zones b
   |                                                                            
   |===================================                                   |  51%
   |                                                                            
+  |====================================                                  |  51%
+  |                                                                            
   |====================================                                  |  52%
   |                                                                            
   |=====================================                                 |  53%
   |                                                                            
   |======================================                                |  54%
   |                                                                            
+  |======================================                                |  55%
+  |                                                                            
   |=======================================                               |  55%
+  |                                                                            
+  |=======================================                               |  56%
   |                                                                            
   |========================================                              |  56%
   |                                                                            
@@ -268,15 +237,21 @@ These coefficients not only quantify the strategic push in key electoral zones b
   |                                                                            
   |=========================================                             |  58%
   |                                                                            
-  |==========================================                            |  59%
+  |=========================================                             |  59%
+  |                                                                            
+  |==========================================                            |  60%
   |                                                                            
   |===========================================                           |  61%
+  |                                                                            
+  |============================================                          |  62%
   |                                                                            
   |============================================                          |  63%
   |                                                                            
   |=============================================                         |  64%
   |                                                                            
   |=============================================                         |  65%
+  |                                                                            
+  |==============================================                        |  65%
   |                                                                            
   |==============================================                        |  66%
   |                                                                            
@@ -286,61 +261,61 @@ These coefficients not only quantify the strategic push in key electoral zones b
   |                                                                            
   |================================================                      |  69%
   |                                                                            
-  |=================================================                     |  69%
-  |                                                                            
   |=================================================                     |  70%
   |                                                                            
   |==================================================                    |  71%
-  |                                                                            
-  |==================================================                    |  72%
   |                                                                            
   |===================================================                   |  73%
   |                                                                            
   |====================================================                  |  74%
   |                                                                            
-  |====================================================                  |  75%
-  |                                                                            
   |=====================================================                 |  75%
+  |                                                                            
+  |=====================================================                 |  76%
   |                                                                            
   |======================================================                |  77%
   |                                                                            
-  |=======================================================               |  78%
+  |======================================================                |  78%
+  |                                                                            
+  |=======================================================               |  79%
   |                                                                            
   |========================================================              |  80%
   |                                                                            
   |========================================================              |  81%
   |                                                                            
+  |=========================================================             |  81%
+  |                                                                            
   |=========================================================             |  82%
   |                                                                            
   |==========================================================            |  83%
   |                                                                            
-  |==========================================================            |  84%
+  |===========================================================           |  84%
   |                                                                            
   |============================================================          |  85%
   |                                                                            
   |============================================================          |  86%
   |                                                                            
-  |=============================================================         |  86%
+  |=============================================================         |  87%
   |                                                                            
   |==============================================================        |  88%
   |                                                                            
   |==============================================================        |  89%
   |                                                                            
-  |===============================================================       |  89%
+  |===============================================================       |  90%
   |                                                                            
   |================================================================      |  91%
-  |                                                                            
-  |=================================================================     |  92%
   |                                                                            
   |=================================================================     |  93%
   |                                                                            
   |==================================================================    |  94%
   |                                                                            
+  |===================================================================   |  95%
+  |                                                                            
   |===================================================================   |  96%
   |                                                                            
   |====================================================================  |  97%
   |                                                                            
-  |===================================================================== |  99%
+  |===================================================================== |  98%
   |                                                                            
   |======================================================================|  99%
   |                                                                            
@@ -350,7 +325,7 @@ These coefficients not only quantify the strategic push in key electoral zones b
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-3.png" width="672" />
 
 
-*Forecasting Model Update:*
+### Forecasting Model Update:
 
 
 In my latest foray into the mystic realm of election forecasting, where numbers replace crystal balls, I've taken to employing an ARIMA model, specifically an AR(1) configuration, to predict shifts in political support across the states. This model, grounded in hard data rather than tea leaves, uses past differences in poll support to project future electoral trends.
@@ -379,7 +354,7 @@ These forecasts serve as strategic markers, guiding campaign efforts on where to
 
 
 
-*Conclusion:*
+### Conclusion:
 
 The ground war in political campaigns, characterized by the strategic deployment of field offices and direct voter interaction, continues to be a pivotal element of electoral strategy. However, its role is undoubtedly being reshaped by digital innovations. As we look towards future elections, the interplay between traditional methods and new technologies will likely redefine how campaigns are conducted and how effectively they can mobilize the electorate. Whether this shift will lead to a decrease in the importance of ground tactics remains to be seen, but for now, they remain a vital component of any comprehensive campaign strategy.
 

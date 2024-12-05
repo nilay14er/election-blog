@@ -113,18 +113,6 @@ In the tactical realm of U.S. presidential elections, the strategic placement of
 These coefficients not only quantify the strategic push in key electoral zones but also reveal the dynamic interplay of campaign strategies where placement was not random but highly calculated. Romney’s additional adjustment based on swing states, with a negative coefficient of -0.765 for his interaction with swing states, shows a strategic withdrawal or reallocation of resources in less promising areas, suggesting a nuanced approach to resource management. This data-driven look into campaign strategies provides a crucial understanding of how field operations are deployed to maximize electoral influence, illustrating the calculative nature of political campaigns and their adaptability to on-ground realities.
 
 
-
-```
-## Reading layer `states' from data source 
-##   `/Users/nilayersoy/election-blog/content/post/2024-10-19-blog-post-7/states.shp' 
-##   using driver `ESRI Shapefile'
-## Simple feature collection with 56 features and 9 fields
-## Geometry type: MULTIPOLYGON
-## Dimension:     XY
-## Bounding box:  xmin: -10428900 ymin: -1697746 xmax: 3407823 ymax: 5140484
-## Projected CRS: USA_Contiguous_Albers_Equal_Area_Conic
-```
-
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-3.png" width="672" />
 
 

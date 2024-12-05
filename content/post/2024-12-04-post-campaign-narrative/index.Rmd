@@ -1,5 +1,5 @@
 ---
-title: Post-Campaign Narrative
+title: 'Post-Campaign Narrative'
 author: Nilay Ersoy
 date: '2024-12-04'
 slug: post-campaign-narrative
@@ -77,9 +77,7 @@ d_county_2020 <- d_county_2020 |>
   select(FIPS, `Geographic Name`, `Geographic Subtype`, votes_trump_2020, votes_biden_2020, votes_2020, 
          winner_2020, trump_pv_2020, biden_pv_2020, trump_2pv_2020, biden_2pv_2020)
 
-####-------------------------------------------------------------------------#
-#### Visualizing the results of the 2024 Presidential Election. 
-####-------------------------------------------------------------------------#
+
 
 # Sequester state and county-level map.
 states_2024 <- states(cb = TRUE, year = 2023) |> 

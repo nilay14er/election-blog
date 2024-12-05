@@ -1,6 +1,6 @@
 ---
 title: "Blog Post 2"
-author: "Package Build"
+author: "Nilay Ersoy"
 date: "2024-09-12"
 output: pdf_document
 categories: []

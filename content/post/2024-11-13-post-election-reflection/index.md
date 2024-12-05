@@ -1,5 +1,5 @@
 ---
-title: 'Post-Election Reflection '
+title: 'Post-Election Reflection'
 author: Nilay Ersoy
 date: '2024-11-13'
 slug: post-election-reflection

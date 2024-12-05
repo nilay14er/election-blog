@@ -139,7 +139,7 @@ However, as seen in the comparison of different campaigns, more field offices do
 
 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, results='asis', echo=FALSE, message=FALSE, warning=FALSE}
 
 lm_obama <- lm(obama12fo ~ romney12fo + 
                  swing + 

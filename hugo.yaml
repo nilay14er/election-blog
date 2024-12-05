@@ -19,7 +19,7 @@ menu:
 
 params:
   description: "A website built through Hugo and blogdown."
-  footer: "&copy; [Yihui Xie](https://yihui.org) 2017 -- {Year} | [Github](https://github.com/yihui) | [Twitter](https://twitter.com/xieyihui)"
+  footer: "&copy; [Nilay Ersoy](https://nilay14er.github.io/election-blog/) 2024 | [Linkedin](www.linkedin.com/in/nilay-ersoy)"
 
 markup:
   highlight:

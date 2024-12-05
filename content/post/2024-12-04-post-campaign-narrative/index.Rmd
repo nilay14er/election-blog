@@ -1,0 +1,248 @@
+---
+title: Post-Campaign Narrative
+author: Nilay Ersoy
+date: '2024-12-04'
+slug: post-campaign-narrative
+categories: []
+tags: []
+---
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+library(geofacet)
+library(ggpubr)
+library(ggthemes)
+library(haven)
+library(kableExtra)
+library(maps)
+library(mgcv)
+library(mgcViz)
+library(RColorBrewer)
+library(scales)
+library(sf)
+library(spData)
+library(stargazer)
+library(tidygeocoder)
+library(tidyverse)
+library(tigris)
+library(tmap)
+library(tmaptools)
+library(viridis)
+
+# Read 2024 results datasets. 
+d_state_2024 <- read_csv("state_votes_pres_2024.csv")[-1, 1:6]
+d_county_2024 <- read_csv("county_votes_pres_2024.csv")[-1, 1:6]
+d_county_2020 <- read_csv("county_votes_pres_2020.csv")[-1, 1:6]
+
+# Process 2024 state and county-level data. 
+d_state_2024 <- d_state_2024 |> 
+  mutate(FIPS = as.numeric(FIPS), 
+         votes_trump = as.numeric(`Donald J. Trump`), 
+         votes_harris = as.numeric(`Kamala D. Harris`), 
+         votes = as.numeric(`Total Vote`), 
+         trump_pv = votes_trump/votes, 
+         harris_pv = votes_harris/votes, 
+         trump_2pv = votes_trump/(votes_trump + votes_harris), 
+         harris_2pv = votes_harris/(votes_trump + votes_harris)) |> 
+  mutate(winner = case_when(votes_trump > votes_harris ~ "REP", 
+                            .default = "DEM")) |> 
+  select(FIPS, `Geographic Name`, `Geographic Subtype`, votes_trump, votes_harris, votes, 
+         winner, trump_pv, harris_pv, trump_2pv, harris_2pv)
+
+d_county_2024 <- d_county_2024 |>
+  mutate(FIPS = as.numeric(FIPS),
+         votes_trump = as.numeric(`Donald J. Trump`), 
+         votes_harris = as.numeric(`Kamala D. Harris`), 
+         votes = as.numeric(`Total Vote`), 
+         trump_pv = votes_trump/votes, 
+         harris_pv = votes_harris/votes, 
+         trump_2pv = votes_trump/(votes_trump + votes_harris), 
+         harris_2pv = votes_harris/(votes_trump + votes_harris)) |> 
+  mutate(winner = case_when(votes_trump > votes_harris ~ "REP", 
+                            .default = "DEM")) |> 
+  select(FIPS, `Geographic Name`, `Geographic Subtype`, votes_trump, votes_harris, votes, 
+         winner, trump_pv, harris_pv, trump_2pv, harris_2pv)
+
+d_county_2020 <- d_county_2020 |> 
+  mutate(FIPS = as.numeric(FIPS),
+         votes_trump_2020 = as.numeric(`Donald J. Trump`), 
+         votes_biden_2020 = as.numeric(`Joseph R. Biden Jr.`), 
+         votes_2020 = as.numeric(`Total Vote`), 
+         trump_pv_2020 = votes_trump_2020/votes_2020, 
+         biden_pv_2020 = votes_biden_2020/votes_2020, 
+         trump_2pv_2020 = votes_trump_2020/(votes_trump_2020 + votes_biden_2020), 
+         biden_2pv_2020 = votes_biden_2020/(votes_trump_2020 + votes_biden_2020)) |> 
+  mutate(winner_2020 = case_when(votes_trump_2020 > votes_biden_2020 ~ "REP", 
+                            .default = "DEM")) |> 
+  select(FIPS, `Geographic Name`, `Geographic Subtype`, votes_trump_2020, votes_biden_2020, votes_2020, 
+         winner_2020, trump_pv_2020, biden_pv_2020, trump_2pv_2020, biden_2pv_2020)
+
+####-------------------------------------------------------------------------#
+#### Visualizing the results of the 2024 Presidential Election. 
+####-------------------------------------------------------------------------#
+
+# Sequester state and county-level map.
+states_2024 <- states(cb = TRUE, year = 2023) |> 
+  shift_geometry() |> 
+  mutate(GEOID = as.numeric(GEOID)) |> 
+  left_join(d_state_2024, by = c("GEOID" = "FIPS")) |> 
+  drop_na()
+counties_2024 <- counties(cb = TRUE, resolution = "5m", year = 2023) |> 
+  shift_geometry() |> 
+  mutate(GEOID = as.numeric(GEOID)) |> 
+  left_join(d_county_2024, by = c("GEOID" = "FIPS")) |> 
+  left_join(d_county_2020, by = c("GEOID" = "FIPS")) |>
+  mutate(shift = (trump_pv - trump_pv_2020) * 100, 
+         shift_dir = case_when(shift > 0 ~ "REP", 
+                               shift < 0 ~ "DEM", 
+                               TRUE ~ "No Change"),
+         centroid = st_centroid(geometry), 
+         centroid_long = st_coordinates(centroid)[,1],
+         centroid_lat = st_coordinates(centroid)[,2],
+         scale_factor = 1e4, 
+         end_long = centroid_long + scale_factor * shift,
+         end_lat = centroid_lat + scale_factor * shift) |>
+  drop_na()
+county_pop_2024 <- read_csv("PopulationEstimates.csv") |> 
+  mutate(FIPStxt = as.numeric(FIPStxt)) |>
+  select(FIPStxt, POP_ESTIMATE_2023)
+counties_2024 <- counties_2024 |> 
+  left_join(county_pop_2024, by = c("GEOID" = "FIPStxt"))
+
+
+```
+
+
+# North Carolina: A Post-Election Analysis of Deviations in Presidential Forecasts
+
+
+_This blog is part of an ongoing assignment for Gov 1347: Election Analytics, a course at Harvard College taught by Professor [Ryan Enos](https://www.ryandenos.com). Throughout the semester, we will explore historical election data and use it to forecast the outcome of the 2024 election._
+
+
+
+### Overview of North Carolina
+
+North Carolina is a southeastern U.S. state, rich in geographic diversity, spanning from the Appalachian Mountains in the west to the Atlantic coastline in the east. It is marked by a mix of urban centers such as Charlotte and Raleigh and rural, agricultural regions. Politically, North Carolina has long been regarded as a battleground state. While historically leaning Republican in presidential elections, it has experienced increasing competitiveness, particularly in its urban and suburban counties.
+
+Demographically, the state reflects a growing diversity. African Americans make up about 22% of the population, while Hispanic and Asian communities are smaller but growing. Educational attainment varies across the state, with urban counties like Wake and Mecklenburg boasting higher percentages of residents with bachelor’s degrees or higher. Economically, North Carolina is a mix of thriving urban centers fueled by technology and finance industries and rural areas facing economic stagnation. This dichotomy often translates into political divides, with urban areas leaning Democratic and rural regions favoring Republicans.
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Make bubble map of county-level results for the US for 2024. 
+counties_2024 |> 
+  ggplot() + 
+  geom_sf(fill = "gray95", color = "darkgrey") +  # Base map
+  geom_point(aes(x = centroid_long, y = centroid_lat, size = POP_ESTIMATE_2023, color = factor(winner)),
+             alpha = 0.7) +  # Semi-transparent bubbles
+  scale_size_continuous(range = c(1, 10), breaks = c(10000, 100000, 500000, 1000000),
+                        labels = scales::comma) +  # Scale bubble size proportionally to population
+  scale_color_manual(values = c("DEM" = "blue", "REP" = "red")) +  # Color by party
+  theme_minimal() +
+  labs(title = "2024 Presidential Election Results by County",
+       subtitle = "(Bubble size represents county population)",
+       size = "Population",
+       color = "Winner") +
+  theme(legend.position = "right")
+```
+This bubble chart captures the results of the 2024 presidential election across the United States, focusing on outcomes at the county level. The size of each bubble represents the population of the county, while the colors indicate the winning party—blue for Democratic wins and red for Republican wins. In North Carolina, the pattern is clear: large blue bubbles in urban areas like Mecklenburg County (Charlotte) and Wake County (Raleigh) reflect significant Democratic support, while smaller but numerous red bubbles dominate rural areas, showcasing widespread Republican strength.
+
+The chart highlights the stark urban-rural divide that defines North Carolina politics. Densely populated urban centers remain critical to Democratic success, but their turnout in this election wasn’t enough to counter the strong Republican performance in rural counties. The prominence of the red bubbles in rural areas underscores the effectiveness of the Republican campaign in consolidating their base, particularly through messaging that resonated on economic and cultural issues. This visualization reinforces the broader trend of geographic polarization and offers a clear starting point for understanding why Republicans outperformed expectations in North Carolina.
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Check county-level shifts in North Carolina between 2024 and 2020. 
+counties_2024 |> 
+  filter(STATE_NAME == "North Carolina") |> 
+  ggplot() +
+  geom_sf(fill = "gray95", color = "darkgrey") +  # Base map
+  geom_text(aes(x = centroid_long, y = centroid_lat-1e4, label = NAME),
+            size = 1.5,  # Adjust size as needed
+            color = "black", hjust = 0.5, vjust = -0.5) + 
+  geom_curve(aes(x = centroid_long, 
+                 y = centroid_lat,
+                 xend = end_long, 
+                 yend = end_lat,
+                 color = shift_dir),
+             arrow = arrow(length = unit(0.1, "cm"), type = "closed"), 
+             curvature = 0.2,  
+             size = 0.3) +
+  scale_color_manual(values = c("DEM" = "blue", "REP" = "red")) +
+  theme_void() +
+  labs(title = "Presidential Voting Shifts by County in North Carolina",
+       subtitle = "Democratic vs. Republican Gains")
+
+```
+This map shows how voter preferences shifted in North Carolina between the 2020 and 2024 elections. Red arrows mark counties where Republicans gained vote share, while blue arrows indicate Democratic gains. The size and direction of the arrows reflect the magnitude of the shift. What stands out immediately is the overwhelming number of red arrows in rural areas, especially in the central and eastern parts of the state, signaling significant Republican gains. Meanwhile, blue arrows are limited to just a few counties, such as Transylvania and Orange, reflecting modest Democratic improvements. Interestingly, some areas that shifted toward blue were also affected by the hurricane tragedy.
+
+This visualization really drives home how successful the Republican campaign was in rural areas. Counties like Johnston, Robeson, and Sampson saw major Republican gains, thanks to strong voter mobilization and messaging that resonated with rural, working-class voters. In contrast, urban and suburban counties, where Democrats traditionally perform well, saw minimal shifts, exposing challenges in turnout and enthusiasm for the Democratic campaign. The dominance of red arrows across the state makes it clear that the Republican ground game and tailored messaging gave them a significant edge, especially in rural communities.
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Calculate voter turnout for each county
+counties_2024 <- counties_2024 |> 
+  mutate(turnout = (votes / POP_ESTIMATE_2023) * 100) 
+
+counties_nc <- counties_2024 |> 
+  filter(STATE_NAME == "North Carolina") 
+
+ggplot(data = counties_nc) +
+  geom_sf(aes(fill = turnout), color = "white", size = 0.2) + 
+  scale_fill_viridis_c(option = "C", name = "Turnout (%)") + 
+  geom_text(aes(x = centroid_long, y = centroid_lat, label = NAME), 
+            size = 1.5, color = "black", check_overlap = TRUE) + 
+  theme_void() + 
+  labs(title = "Voter Turnout by County in North Carolina (2024)",
+       subtitle = "Percentage of Total Eligible Population Voting",
+       caption = "Data source: County Votes 2024 & Population Estimates") +
+  theme(legend.position = "bottom")
+
+```
+This choropleth map illustrates voter turnout by county in North Carolina during the 2024 election, with counties shaded from yellow for high turnout to purple for low turnout. The map makes it clear that rural counties, especially in central and eastern North Carolina, [had some of the highest turnout rates](https://www.dukechronicle.com/article/2024/12/duke-university-2024-north-carolina-electorate-breakdown-turnout-split-ballot-voting-swing-state-youth-turnout-no-change-above-national-average-republican-democrat-lean-hurricane-helene-presidential-gubernatorial-general-assembly-house-of-representatives?utm_source=chatgpt.com), while urban counties like Mecklenburg and Wake only saw moderate turnout. Notably, counties like Johnston and Robeson, which leaned heavily Republican, stood out with exceptionally high turnout.
+
+This map tells a clear story of how the Republican campaign succeeded in mobilizing rural voters. High levels of engagement in these areas, supported by effective ground campaigns, gave Republicans a significant edge. On the other hand, urban counties, where Democrats usually perform well, showed only moderate turnout, signaling missed opportunities to fully energize their base. This turnout disparity highlights how critical mobilization strategies are. The strong rural turnout directly contributed to Republican overperformance, while the Democrats’ challenges in motivating younger and minority voters in urban areas further compounded the problem. This map, alongside the voting shift map, reinforces how turnout dynamics played a central role in solidifying Republican gains in 2024.
+
+
+
+
+### Forecasted vs. Actual Outcomes
+
+According to my forecasting models, both the ARIMA model for the popular vote and the linear regression model for the Electoral College correctly predicted that North Carolina would lean Republican, with Donald J. Trump securing a victory. These predictions were grounded in historical voting patterns, demographic trends, and campaign dynamics. However, the magnitude of Trump’s win exceeded expectations, as he outperformed forecasts in several key counties. Notably, rural counties such as Johnston and Robeson showed significant Republican gains, while Democratic strongholds like Durham and Mecklenburg underperformed in terms of turnout.
+
+The actual outcome aligns with my model predictions regarding the Republican victory but highlights areas of unexpected overperformance for Trump. The forecast assumed urban turnout would sufficiently counterbalance rural Republican gains, but stronger-than-anticipated Republican enthusiasm in rural areas, combined with a modest decline in Democratic turnout in urban centers, shifted the balance further in Trump’s favor. This outcome reinforces the effectiveness of forecasting methods that integrate demographic, turnout, and geographic factors while also pointing to the dynamic nature of voter behavior that may not be fully captured by models.
+
+
+
+### Campaign Analysis
+
+The campaign in North Carolina centered around two decisive factors that played in favor of Donald J. Trump: effective rural voter mobilization and a sharp focus on economic messaging. Trump's campaign invested heavily in grassroots efforts, particularly in rural counties like Johnston and Robeson. Door-to-door outreach, community events, and highly localized messaging underscored the campaign’s emphasis on economic recovery and cultural conservatism, resonating with working-class voters. This tailored approach not only energized the Republican base but also swayed some swing voters who felt disconnected from Democratic messaging on broader national issues.
+
+In contrast, [Kamala Harris’s campaign struggled to maintain the urban and suburban](https://www.politico.com/news/2024/10/30/black-turnout-is-lagging-in-north-carolina-a-warning-sign-for-harris-00186387?utm_source=chatgpt.com) coalition that had been critical to Democratic success in 2020. While the Harris campaign emphasized healthcare and education, these issues failed to galvanize key constituencies, particularly younger and minority voters. Turnout in urban centers like Mecklenburg and Wake Counties lagged behind expectations, reflecting a lack of enthusiasm compared to previous elections. Additionally, Harris’s campaign failed to effectively counter Republican narratives on inflation and economic insecurity, issues that were top of mind for many North Carolina voters. This messaging gap left suburban swing voters, especially in counties like Union, more inclined to support Trump, further solidifying his advantage.
+
+The combination of Trump’s focused rural strategy and Harris’s inability to mobilize and inspire core Democratic demographics underscores the dynamics that drove North Carolina’s 2024 outcome. The Republican campaign’s clarity and alignment with voter priorities outpaced the Harris campaign’s broader, less targeted approach, ultimately contributing to Trump’s stronger-than-expected performance in the state.
+
+
+
+
+### Explaining the Deviations
+
+_Ground Game Effectiveness_
+
+The Republican campaign’s emphasis on a well-executed ground game played a decisive role in the deviations from the forecasted outcome. As highlighted in the campaign analysis, Trump's team successfully deployed door-to-door outreach and grassroots mobilization efforts in rural counties like Johnston and Robeson. This strategy aligned with research by Enos and Hersh (2015), which underscores the importance of personal voter contact in boosting turnout, particularly in low-propensity voting areas. The effectiveness of this approach is evident in the turnout data, where rural counties not only exceeded expectations but delivered significant Republican gains. By directly engaging voters with localized messaging on economic recovery and cultural conservatism, the campaign ensured high rural voter engagement that outperformed forecasts. This contrasts sharply with Harris’s campaign, which lacked the same level of localized effort, especially in suburban and rural areas, contributing to the turnout gaps that worked in favor of Republicans.
+
+
+_Turnout Dynamics_
+
+Turnout disparities between rural and urban areas further explain the deviations from the forecast. Rural counties, energized by the Republican campaign’s ground game and messaging, saw unexpectedly high turnout rates, while urban centers like Mecklenburg and Wake Counties underperformed slightly. This dynamic is critical in understanding the Republican overperformance in the state. The Harris campaign struggled to generate the same level of enthusiasm among urban and suburban voters, particularly younger and minority groups. As discussed in the campaign analysis, this turnout gap reflects the Republican campaign’s success in framing the election as a high-stakes contest for rural voters, while the Democratic campaign failed to create a compelling narrative that could mobilize its base. The turnout dynamics underscore the broader challenge faced by Democrats in converting urban support into high voter participation, a key factor that contributed to their underperformance in North Carolina.
+
+
+### Conclusion
+
+The 2024 presidential election in North Carolina offers a clear look at the dynamics that can tip the scales in a battleground state. The Republican campaign’s focused strategy—built around a strong ground game and targeted messaging on economic recovery and cultural values—proved incredibly effective. Their ability to mobilize rural voters and expand their base in key counties like Johnston and Robeson was critical to their success. In contrast, the Democratic campaign struggled to generate the turnout needed in urban areas like Mecklenburg and Wake Counties, where enthusiasm fell short of expectations. This left Democrats unable to counterbalance the Republican gains in rural parts of the state.
+
+The results make it clear how important turnout and mobilization strategies are. Republicans framed the election as high-stakes for rural voters, driving engagement in a way Democrats couldn’t match in their core constituencies. This turnout gap ultimately helped Republicans outperform forecasts and secure a stronger-than-expected victory in North Carolina.
+
+Looking ahead, Democrats will need to address these turnout challenges in urban areas and find ways to reconnect with younger and minority voters, who are crucial for their success. Meanwhile, Republicans have shown how powerful a well-executed ground game and focused messaging can be in shaping outcomes, especially in rural regions. North Carolina remains a key battleground and a reflection of national political trends, offering valuable lessons for both parties moving forward.
+
+
+

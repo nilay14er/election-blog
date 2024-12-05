@@ -202,7 +202,7 @@ d_campaign_events$party[d_campaign_events$candidate %in% c("Biden / Harris", "Bi
   # shift_geometry() |>
   # filter(STUSPS %in% unique(fo_add$state))
 
-us_geo <- sf::st_read("states.shp") |> 
+us_geo <- sf::st_read("states.shp", quiet = TRUE) |> 
   shift_geometry() |>
   filter(STUSPS %in% unique(fo_add$state))
 

@@ -80,12 +80,15 @@ d_county_2020 <- d_county_2020 |>
 
 
 # Sequester state and county-level map.
-states_2024 <- states(cb = TRUE, year = 2023) |> 
+states_2024 <- sf::st_read("states.shp", quiet = TRUE) |> 
   shift_geometry() |> 
   mutate(GEOID = as.numeric(GEOID)) |> 
   left_join(d_state_2024, by = c("GEOID" = "FIPS")) |> 
   drop_na()
-counties_2024 <- counties(cb = TRUE, resolution = "5m", year = 2023) |> 
+
+# sf::st_read('tl_2024_us_county.shp', quiet = TRUE)
+
+counties_2024 <- counties(cb = TRUE, resolution = "5m", year = 2023, progress_bar = FALSE) |> 
   shift_geometry() |> 
   mutate(GEOID = as.numeric(GEOID)) |> 
   left_join(d_county_2024, by = c("GEOID" = "FIPS")) |> 
